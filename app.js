@@ -421,15 +421,15 @@ function renderStocks() {
 
     // Add Sector Header
     const sectorHeader = document.createElement('div');
-    sectorHeader.className = 'flex items-center justify-between mb-2 px-2';
+    sectorHeader.className = 'flex items-center justify-between mt-2 mb-4 px-2';
     sectorHeader.innerHTML = `
-        <div class="flex items-center gap-2">
-            <div class="w-1.5 h-1.5 rounded-full bg-[#afff00] animate-pulse"></div>
-            <span class="text-[10px] font-orbitron font-bold text-[#afff00] uppercase tracking-widest">
+        <div class="flex items-center gap-2.5">
+            <div class="w-2 h-2 rounded-full bg-[#afff00] shadow-[0_0_10px_#afff00] animate-pulse"></div>
+            <span class="text-sm font-orbitron font-extrabold text-[#afff00] uppercase tracking-[0.2em] drop-shadow-[0_0_5px_rgba(175,255,0,0.5)]">
                 ${currentFilter === 'ALL' ? 'ALL SECTORS' : currentFilter} FEED
             </span>
         </div>
-        <span class="text-[10px] font-bold text-zinc-600">${filtered.length} ASSETS FOUND</span>
+        <span class="text-[9px] font-bold text-zinc-500 tracking-widest">${filtered.length} ASSETS READY</span>
     `;
     list.appendChild(sectorHeader);
 
