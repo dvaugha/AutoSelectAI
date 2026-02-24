@@ -163,7 +163,7 @@ function startWarningTimer() {
         warningScreen.classList.add('fade-out');
         setTimeout(() => {
             warningScreen.style.display = 'none';
-            appContainer.style.display = 'block';
+            appContainer.classList.remove('hidden');
             renderStocks();
         }, 500);
     }, 4000);
@@ -202,7 +202,12 @@ function initEventListeners() {
 }
 
 function openDetailModal(stock) {
+    console.log('Opening modal for:', stock.ticker);
     const modal = document.getElementById('stock-detail-modal');
+    if (!modal) {
+        console.error('Modal element not found!');
+        return;
+    }
 
     document.getElementById('detail-ticker').textContent = stock.ticker;
     document.getElementById('detail-name').textContent = stock.name;
@@ -260,7 +265,7 @@ function renderStocks() {
 
     top5.forEach((stock, index) => {
         const card = document.createElement('div');
-        card.className = 'stock-card fade-in';
+        card.className = 'stock-card fade-in cursor-pointer';
         card.style.animationDelay = `${index * 0.1}s`;
 
         card.innerHTML = `

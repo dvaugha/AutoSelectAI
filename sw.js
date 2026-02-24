@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alpha-x-v1';
+const CACHE_NAME = 'alpha-x-v2'; // Bumped version to force update
 const ASSETS = [
     'index.html',
     'styles.css',
@@ -15,9 +15,24 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request).then((response) => {
-            return response || fetch(event.request);
-        })
-    );
+    // Network first strategy for scripts and styles to ensure updates
+    if (event.request.url.includes('.js') || event.request.url.includes('.css')) {
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    const clonedResponse = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, clonedResponse);
+                    });
+                    return response;
+                })
+                .catch(() => caches.match(event.request))
+        );
+    } else {
+        event.respondWith(
+            caches.match(event.request).then((response) => {
+                return response || fetch(event.request);
+            })
+        );
+    }
 });

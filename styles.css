@@ -10,13 +10,22 @@
     --border: rgba(255, 255, 255, 0.08);
 }
 
+.hidden {
+    display: none !important;
+}
+
 body {
     background-color: var(--bg-dark);
     -webkit-tap-highlight-color: transparent;
 }
 
-.font-orbitron { font-family: 'Orbitron', sans-serif; }
-.font-inter { font-family: 'Inter', sans-serif; }
+.font-orbitron {
+    font-family: 'Orbitron', sans-serif;
+}
+
+.font-inter {
+    font-family: 'Inter', sans-serif;
+}
 
 /* Dashboard Card Styling */
 .stock-card {
@@ -68,7 +77,9 @@ body {
 }
 
 @keyframes draw {
-    to { stroke-dashoffset: 0; }
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 /* Warnings & Animations */
@@ -87,22 +98,42 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Aggression Toggle */
-.mode-btn.active-low { background: #10b981; color: black; }
-.mode-btn.active-mid { background: #3b82f6; color: black; }
-.mode-btn.active-high { background: #ef4444; color: black; }
+.mode-btn.active-low {
+    background: #10b981;
+    color: black;
+}
+
+.mode-btn.active-mid {
+    background: #3b82f6;
+    color: black;
+}
+
+.mode-btn.active-high {
+    background: #ef4444;
+    color: black;
+}
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 4px;
 }
+
 ::-webkit-scrollbar-track {
     background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
@@ -120,6 +151,7 @@ body {
     text-transform: uppercase;
     color: #71717a;
 }
+
 /* Modal Animations */
 #stock-detail-modal:not(.hidden) {
     display: flex;
@@ -131,13 +163,23 @@ body {
 }
 
 @keyframes modalFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
 }
 
 /* Glass Effect for Content */
