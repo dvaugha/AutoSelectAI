@@ -1,8 +1,9 @@
 @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
 
 :root {
-    --primary: #00ff9d;
-    --primary-glow: rgba(0, 255, 157, 0.4);
+    --primary: #afff00;
+    /* High-intensity Bright Green / Lime */
+    --primary-glow: rgba(175, 255, 0, 0.4);
     --danger: #ff3b3b;
     --warning: #f59e0b;
     --bg-dark: #09090b;

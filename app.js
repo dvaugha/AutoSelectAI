@@ -286,7 +286,7 @@ function openDetailModal(stock) {
         const li = document.createElement('li');
         li.className = 'flex items-start gap-3 text-sm text-gray-400';
         li.innerHTML = `
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 mt-1 shrink-0"></i>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-[#afff00] mt-1 shrink-0"></i>
             <span>${c}</span>
         `;
         catalystsList.appendChild(li);
@@ -324,8 +324,8 @@ function initChart(stock) {
     }
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-    gradient.addColorStop(0, 'rgba(0, 255, 157, 0.2)');
-    gradient.addColorStop(1, 'rgba(0, 255, 157, 0)');
+    gradient.addColorStop(0, 'rgba(175, 255, 0, 0.2)');
+    gradient.addColorStop(1, 'rgba(175, 255, 0, 0)');
 
     globalChart = new Chart(ctx, {
         data: {
@@ -335,7 +335,7 @@ function initChart(stock) {
                     type: 'line',
                     label: 'Price Action',
                     data: stock.details.history,
-                    borderColor: '#00ff9d',
+                    borderColor: '#afff00',
                     borderWidth: 3,
                     backgroundColor: gradient,
                     fill: true,
@@ -424,8 +424,8 @@ function renderStocks() {
     sectorHeader.className = 'flex items-center justify-between mb-2 px-2';
     sectorHeader.innerHTML = `
         <div class="flex items-center gap-2">
-            <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-            <span class="text-[10px] font-orbitron font-bold text-gray-500 uppercase tracking-widest">
+            <div class="w-1.5 h-1.5 rounded-full bg-[#afff00] animate-pulse"></div>
+            <span class="text-[10px] font-orbitron font-bold text-[#afff00] uppercase tracking-widest">
                 ${currentFilter === 'ALL' ? 'ALL SECTORS' : currentFilter} FEED
             </span>
         </div>
