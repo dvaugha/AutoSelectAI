@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alpha-x-v4'; // Final Force Update for #00FF00
+const CACHE_NAME = 'alpha-x-v5'; // Final click and color fix
 const ASSETS = [
     'index.html',
     'styles.css',
