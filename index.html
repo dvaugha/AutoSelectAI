@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Alpha-X">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=9">
+    <link rel="stylesheet" href="styles.css?v=10">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -157,75 +157,112 @@
                         </p>
                     </section>
 
-                    <!-- STATS GRID -->
+                    <!-- ALPHA METER & STATS -->
                     <section class="grid grid-cols-2 gap-4">
-                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
-                            <div class="label-mini mb-2">Technical RSI</div>
-                            <div id="detail-rsi" class="text-xl font-orbitron font-bold"></div>
+                        <div
+                            class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5 relative overflow-hidden group">
+                            <div class="label-mini mb-3">Relative Dominance</div>
+                            <div class="h-2 w-full bg-zinc-800 rounded-full overflow-hidden relative mb-2">
+                                <div id="alpha-meter-bar"
+                                    class="h-full bg-neon shadow-[0_0_10px_#00FFFF] transition-all duration-1000"
+                                    style="width: 75%"></div>
+                            </div>
+                            <div
+                                class="flex justify-between text-[9px] font-bold text-zinc-600 uppercase tracking-tighter">
+                                <span>Lagging SPY</span>
+                                <span class="text-neon" id="alpha-meter-val">+4.2% Alpha</span>
+                                <span>Market Leader</span>
+                            </div>
+                            <div class="mt-3 text-[10px] text-zinc-500 italic leading-tight">
+                                <span class="text-neon font-bold">PRO VIEW:</span> Is this a leader? This tracks "True
+                                Alpha" vs the S&P 500.
+                            </div>
                         </div>
-                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
-                            <div class="label-mini mb-2">MACD Status</div>
-                            <div id="detail-macd" class="text-lg font-orbitron font-bold text-blue-400"></div>
-                        </div>
-                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
-                            <div class="label-mini mb-2">Volume Profile</div>
-                            <div id="detail-volume" class="text-lg font-orbitron font-bold"></div>
-                        </div>
+
                         <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
                             <div class="label-mini mb-2">Sentiment Score</div>
-                            <div id="detail-sentiment" class="text-xl font-orbitron font-bold text-emerald-400"></div>
+                            <div id="detail-sentiment" class="text-2xl font-orbitron font-extrabold text-neon"></div>
+                            <div class="text-[9px] text-zinc-500 mt-1 uppercase font-bold tracking-widest">Global Social
+                                Pulse</div>
                         </div>
                     </section>
 
-                    <!-- CATALYSTS -->
+                    <!-- STRIKE WALL VISUALIZER -->
                     <section>
-                        <div class="label-mini mb-4">Market Catalysts</div>
-                        <ul id="detail-catalysts" class="space-y-3">
-                            <!-- Injected catalysts -->
-                        </ul>
-                    </section>
-
-                    <!-- EVIDENCE & RESEARCH -->
-                    <section>
-                        <div class="label-mini mb-4">Research & Evidence</div>
-                        <div class="space-y-3" id="detail-links">
-                            <!-- Links injected here -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-1.5 h-1.5 rounded-full bg-neon animate-ping"></div>
+                            <h3 class="label-mini text-white">The Strike Wall: Institutional Magnet</h3>
                         </div>
-                    </section>
-
-                    <!-- HISTORICAL ANALYSIS -->
-                    <section>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="label-mini">Quarterly Performance & Signal</div>
-                            <span
-                                class="text-[10px] text-emerald-400 font-bold px-2 py-0.5 bg-emerald-400/10 rounded">BULLISH
-                                DIVERGENCE</span>
-                        </div>
-                        <div class="bg-zinc-900/80 p-4 rounded-2xl border border-white/5 h-64 relative">
-                            <canvas id="stock-history-chart"></canvas>
-                        </div>
-                        <p id="chart-insight" class="text-[11px] text-gray-500 mt-3 italic text-center"></p>
-                    </section>
-
-                    <!-- TRADE LEVELS -->
-                    <section
-                        class="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 p-6 rounded-3xl border border-white/10">
-                        <div class="label-mini mb-4 text-emerald-400">Execution Plan</div>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-400 text-sm">Entry Zone</span>
-                                <span id="detail-entry" class="font-bold text-white"></span>
+                        <div class="bg-zinc-900/50 p-6 rounded-3xl border border-white/5 relative overflow-hidden">
+                            <div id="strike-wall-container" class="space-y-3 relative z-10">
+                                <!-- Strike bars injected here -->
                             </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-400 text-sm">Target (5-7d)</span>
-                                <span id="detail-target" class="font-bold text-emerald-400"></span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-400 text-sm">Stop Loss</span>
-                                <span id="detail-stop" class="font-bold text-rose-500"></span>
+                            <!-- Pro Explanation -->
+                            <div class="mt-6 p-4 bg-neon/5 rounded-2xl border border-neon/10 border-dashed">
+                                <p class="text-[11px] text-gray-400 leading-relaxed">
+                                    <span class="text-neon font-bold uppercase tracking-widest">The Magnet Logic:</span>
+                                    We've mapped the Dark Pool liquidity and institutional Call walls. These bars
+                                    represent where market makers are heavily hedged.
+                                    If price approaches a <span class="text-white font-bold text-glow-primary">Massive
+                                        Bar</span>, expect a "Gamma Magnet" effect pulling the stock through the path of
+                                    least resistance.
+                                </p>
                             </div>
                         </div>
                     </section>
+
+                    <!-- STATS GRID -->
+                    <section class="grid grid-cols-2 gap-4">
+
+                        <!-- CATALYSTS -->
+                        <section>
+                            <div class="label-mini mb-4">Market Catalysts</div>
+                            <ul id="detail-catalysts" class="space-y-3">
+                                <!-- Injected catalysts -->
+                            </ul>
+                        </section>
+
+                        <!-- EVIDENCE & RESEARCH -->
+                        <section>
+                            <div class="label-mini mb-4">Research & Evidence</div>
+                            <div class="space-y-3" id="detail-links">
+                                <!-- Links injected here -->
+                            </div>
+                        </section>
+
+                        <!-- HISTORICAL ANALYSIS -->
+                        <section>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="label-mini">Quarterly Performance & Signal</div>
+                                <span
+                                    class="text-[10px] text-emerald-400 font-bold px-2 py-0.5 bg-emerald-400/10 rounded">BULLISH
+                                    DIVERGENCE</span>
+                            </div>
+                            <div class="bg-zinc-900/80 p-4 rounded-2xl border border-white/5 h-64 relative">
+                                <canvas id="stock-history-chart"></canvas>
+                            </div>
+                            <p id="chart-insight" class="text-[11px] text-gray-500 mt-3 italic text-center"></p>
+                        </section>
+
+                        <!-- TRADE LEVELS -->
+                        <section
+                            class="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 p-6 rounded-3xl border border-white/10">
+                            <div class="label-mini mb-4 text-emerald-400">Execution Plan</div>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Entry Zone</span>
+                                    <span id="detail-entry" class="font-bold text-white"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Target (5-7d)</span>
+                                    <span id="detail-target" class="font-bold text-emerald-400"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Stop Loss</span>
+                                    <span id="detail-stop" class="font-bold text-rose-500"></span>
+                                </div>
+                            </div>
+                        </section>
                 </div>
             </div>
         </div>
@@ -258,7 +295,7 @@
             alert("Error: " + msg + "\nURL: " + url + "\nLine: " + line);
         };
     </script>
-    <script src="app.js?v=9"></script>
+    <script src="app.js?v=10"></script>
 </body>
 
 </html>

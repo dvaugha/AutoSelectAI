@@ -1,4 +1,4 @@
-console.log("%c ALPHA-X v9 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+console.log("%c ALPHA-X v10 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
@@ -17,6 +17,13 @@ const ALPHA_STOCKS = [
             catalysts: ['Upcoming earnings beat projected', 'GTC conference hype', 'New TPU partnership rumors'],
             technicals: { rsi: 62, macd: 'Bullish Crossover', volume: '1.4x Avg' },
             sentiment: 92,
+            alpha_rs: 8.4, // Relative Strength score
+            strike_wall: [
+                { strike: 195, volume: 45 },
+                { strike: 200, volume: 92 },
+                { strike: 205, volume: 30 },
+                { strike: 210, volume: 65 }
+            ],
             alpha_play: 'NVDA is currently in a "blue sky" breakout phase following the recent split. The 191.55 level is a critical psychological anchor. We expect a rapid 12% move as institutional accumulation accelerates.',
             history: [165, 172, 180, 178, 184, 190, 188, 191.55],
             volume_history: [120, 145, 110, 180, 210, 250, 230, 280],
@@ -71,6 +78,12 @@ const ALPHA_STOCKS = [
             catalysts: ['S&P 500 inclusion rumors', 'Server backlog reaching record highs', 'Short interest squeeze'],
             technicals: { rsi: 82, macd: 'Vertical', volume: '2.5x Avg' },
             sentiment: 98,
+            alpha_rs: 6.2,
+            strike_wall: [
+                { strike: 900, volume: 88 },
+                { strike: 950, volume: 42 },
+                { strike: 1000, volume: 95 }
+            ],
             alpha_play: 'This is a pure volatility expansion play. SMCI is the hardware backbone of the AI era. Short interest is high, and any positive news creates a feedback loop of buying. We are targeting the $1000 psychological level.',
             history: [320, 480, 550, 620, 740, 890, 810, 850],
             volume_history: [210, 340, 420, 380, 510, 680, 590, 620],
@@ -294,6 +307,40 @@ function openDetailModal(stock) {
     }
 
     document.getElementById('detail-alpha-play').textContent = stock.details.alpha_play;
+
+    // Alpha Meter Visualization
+    const rs = stock.details.alpha_rs || 2.5;
+    const meterVal = Math.min(100, (rs / 10) * 100);
+    document.getElementById('alpha-meter-bar').style.width = `${meterVal}%`;
+    document.getElementById('alpha-meter-val').textContent = `+${rs}% Alpha`;
+
+    // Strike Wall Visualization
+    const wallContainer = document.getElementById('strike-wall-container');
+    wallContainer.innerHTML = '';
+    const strikes = stock.details.strike_wall || [
+        { strike: parseFloat(stock.target) * 0.95, volume: 40 },
+        { strike: parseFloat(stock.target), volume: 80 }
+    ];
+
+    strikes.forEach(s => {
+        const item = document.createElement('div');
+        item.className = 'group';
+        item.innerHTML = `
+            <div class="flex justify-between items-center text-[10px] font-bold text-gray-400 mb-1">
+                <span class="font-orbitron text-white">$${s.strike} STRIKE</span>
+                <span>${s.volume}% CALL DENSITY</span>
+            </div>
+            <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                <div class="h-full bg-neon shadow-[0_0_8px_#00FFFF] transition-all duration-1000" style="width: 0%"></div>
+            </div>
+        `;
+        wallContainer.appendChild(item);
+        // Animate in
+        setTimeout(() => {
+            item.querySelector('.bg-neon').style.width = `${s.volume}%`;
+        }, 100);
+    });
+
     document.getElementById('detail-rsi').textContent = stock.details.technicals.rsi;
     document.getElementById('detail-macd').textContent = stock.details.technicals.macd;
     document.getElementById('detail-volume').textContent = stock.details.technicals.volume;
