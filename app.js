@@ -1,5 +1,5 @@
-// ALPHA-X v4.0.3 | Private Neural Rebuild
-const API_VERSION = '403';
+// ALPHA-X v4.0.4 | Private Neural Rebuild
+const API_VERSION = '404';
 
 const STOCK_DATABASE = [
     // AI & SEMIS
@@ -33,18 +33,21 @@ const STOCK_DATABASE = [
     // DEFENSE
     { ticker: "LMT", name: "Lockheed Martin", sector: "Defense", price: 462.80, entry: "458 - 465", target: 520, stop: 442, riskRating: "Low", bullets: ["F-35 deliveries back on track", "Record backlog of international orders", "Safe-haven capital flows during unrest"], catalyst: "Geopolitical Tensions" },
     { ticker: "RTX", name: "Raytheon Tech", sector: "Defense", price: 102.10, entry: "100 - 103", target: 125, stop: 96, riskRating: "Low", bullets: ["Pratt & Whitney engine fixes complete", "Massive missile defense contract tailwinds", "High barrier to entry in defense tech"], catalyst: "Defense Budget Expansion" },
-    { ticker: "HWM", name: "Howmet Aero", sector: "Defense", price: 82.40, entry: "80 - 83", target: 105, stop: 76, riskRating: "Moderate", bullets: ["Aerospace supply chain leader", "Propulsion component demand surge", "Perfect technical breakout setup"], catalyst: "Air Travel Recovery" }
+    { ticker: "HWM", name: "Howmet Aero", sector: "Defense", price: 82.40, entry: "80 - 83", target: 105, stop: 76, riskRating: "Moderate", bullets: ["Aerospace supply chain leader", "Propulsion component demand surge", "Perfect technical breakout setup"], catalyst: "Air Travel Recovery" },
+    { ticker: "CAT", name: "Caterpillar Inc", sector: "Industrials", price: 342.10, entry: "338 - 345", target: 385, stop: 324, riskRating: "Low", bullets: ["Mining equipment demand structural shift", "Infrastructure project backlog record high", "Margin expansion in energy sector"], catalyst: "Global Infrastructure Cycle" },
+
+    // SPECIFIC PICKS (SMR, OKLO, ARKX)
+    { ticker: "SMR", name: "NuScale Power", sector: "Energy", price: 24.50, entry: "23.5 - 25", target: 35, stop: 21.2, riskRating: "High", bullets: ["Leader in Small Modular Reactor (SMR) tech", "Bipartisan support for nuclear energy expansion", "Strategic pivot to data center power solutions"], catalyst: "Government Nuclear Grants" },
+    { ticker: "OKLO", name: "Oklo Inc", sector: "Energy", price: 18.20, entry: "17.5 - 19", target: 28, stop: 15.8, riskRating: "Very High", bullets: ["Sam Altman backed nuclear fission play", "Advanced micro-reactor commercialization", "Massive social sentiment engagement"], catalyst: "SMR Commercial License" },
+    { ticker: "ARKX", name: "ARK Space ETF", sector: "New Space Stocks", price: 15.80, entry: "15.4 - 16", target: 22, stop: 14.5, riskRating: "Moderate", bullets: ["Diversified exposure to orbital manufacturing", "Captures global military space spend", "Technical breakout on weekly accumulation"], catalyst: "Space Economy Acceleration" }
 ];
 
 let activeFilterValue = 'all';
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Alpha-X v4.0.2 Initializing...");
+    console.log("Alpha-X v4.0.4 Initializing...");
     initLoader();
     updateTime();
-
-    // Critical: Move listener attachment to after app is ready, 
-    // but we'll pre-bind them to handle fast interactions
     bindEvents();
 
     if ('serviceWorker' in navigator) {
@@ -56,9 +59,7 @@ function initLoader() {
     const bar = document.getElementById('loading-bar');
     const screen = document.getElementById('warning-screen');
     const app = document.getElementById('app-container');
-
     if (bar) setTimeout(() => { bar.style.width = '100%'; }, 100);
-
     setTimeout(() => {
         if (screen) screen.classList.add('fade-out');
         setTimeout(() => {
@@ -87,14 +88,24 @@ function bindEvents() {
     const resetBtn = document.getElementById('reset-app');
     const overlay = document.getElementById('modal-overlay');
 
+    // Quick Ticker Buttons
+    const btnSmr = document.getElementById('btn-smr');
+    const btnOklo = document.getElementById('btn-oklo');
+    const btnArkx = document.getElementById('btn-arkx');
+    const strategyBtn = document.getElementById('strategy-info-btn');
+
     if (spaceBtn) spaceBtn.addEventListener('click', () => handleFilterClick('New Space Stocks', 'filter-space'));
     if (miningBtn) miningBtn.addEventListener('click', () => handleFilterClick('Mining Stocks', 'filter-mining'));
+
+    if (btnSmr) btnSmr.addEventListener('click', () => openTickerModal('SMR'));
+    if (btnOklo) btnOklo.addEventListener('click', () => openTickerModal('OKLO'));
+    if (btnArkx) btnArkx.addEventListener('click', () => openTickerModal('ARKX'));
+    if (strategyBtn) strategyBtn.addEventListener('click', openStrategyModal);
 
     if (sectorDrop) {
         sectorDrop.addEventListener('change', (e) => {
             activeFilterValue = e.target.value;
             updateFilterLabel(activeFilterValue);
-            // Clear space/mining button highlights
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             refreshStocks();
         });
@@ -103,7 +114,7 @@ function bindEvents() {
     if (refreshBtn) refreshBtn.addEventListener('click', refreshStocks);
 
     if (resetBtn) resetBtn.addEventListener('click', () => {
-        if (confirm("Factory Reset Application Cache?")) {
+        if (confirm("Clear Cache?")) {
             localStorage.clear();
             window.location.reload(true);
         }
@@ -112,22 +123,52 @@ function bindEvents() {
     if (overlay) overlay.addEventListener('click', closeModal);
 }
 
+function openTickerModal(ticker) {
+    const stock = STOCK_DATABASE.find(s => s.ticker === ticker);
+    if (stock) {
+        const upside = (((stock.target - stock.price) / stock.price) * 100).toFixed(1);
+        const riskPct = (((stock.price - stock.stop) / stock.price) * 100).toFixed(1);
+        const rr = (upside / riskPct).toFixed(2);
+        openModal(stock, upside, riskPct, rr);
+    }
+}
+
+function openStrategyModal() {
+    const overlay = document.getElementById('modal-overlay');
+    const container = document.getElementById('modal-container');
+    container.innerHTML = `
+        <div class="mb-6">
+            <h2 class="text-2xl font-black italic text-accent">INTELLIGENCE STRATEGY</h2>
+            <p class="text-[10px] text-zinc-500 uppercase mt-1">Alpha-X Algorithmic Selection</p>
+        </div>
+        <div class="space-y-6 text-gray-300 text-sm leading-relaxed">
+            <section class="p-4 bg-white/5 rounded-2xl border border-white/5">
+                <h4 class="text-accent font-bold mb-2">Why these stocks?</h4>
+                <p>Selections are based on a 4-layer screening process:</p>
+                <ul class="mt-2 space-y-2 list-disc pl-4 text-xs">
+                    <li><span class="text-white font-bold">Relative Volume Expansion:</span> Searching for stocks trading 150%+ above their 10-day average.</li>
+                    <li><span class="text-white font-bold">Institutional Flow:</span> Tracking dark pool prints and unusual options activity.</li>
+                    <li><span class="text-white font-bold">Sector Momentum:</span> Identifying rotating capital into themes like Nuclear or Space.</li>
+                    <li><span class="text-white font-bold">Technical Breakouts:</span> Focusing on VCP patterns and flat base breakouts.</li>
+                </ul>
+            </section>
+            <button id="close-report-btn" class="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase text-zinc-500">Close Report</button>
+        </div>
+    `;
+    overlay.classList.add('active');
+    document.getElementById('close-report-btn').onclick = closeModal;
+}
+
 function handleFilterClick(sectorName, btnId) {
     activeFilterValue = sectorName;
-
-    // UI Feedback
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(btnId).classList.add('active');
-
-    // Sync dropdown if possible
     const select = document.getElementById('sector-dropdown');
     if (select) {
-        // Find option with matching value
         const exists = Array.from(select.options).some(o => o.value === sectorName);
         if (exists) select.value = sectorName;
-        else select.value = 'all'; // Fallback
+        else select.value = 'all';
     }
-
     updateFilterLabel(sectorName);
     refreshStocks();
 }
@@ -143,37 +184,24 @@ function refreshStocks() {
     const stockFeed = document.getElementById('stock-feed');
     const timestamp = document.getElementById('timestamp');
     const refreshBtn = document.getElementById('refresh-picks');
-
-    // Animation
     if (refreshBtn) {
         const icon = refreshBtn.querySelector('svg, .lucide');
         if (icon) icon.classList.add('animate-spin');
-        // We'll remove it after cards are rendered
     }
-
-    // Timestamp
     if (timestamp) {
         const now = new Date();
         timestamp.textContent = `Picks Synced: ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     }
-
-    // Filter Database
     let pool = STOCK_DATABASE;
     if (activeFilterValue !== 'all') {
         pool = STOCK_DATABASE.filter(s => s.sector === activeFilterValue);
     }
-
-    // If pool is small, backfill with randoms but prioritize the sector
     if (pool.length < 5) {
         const others = STOCK_DATABASE.filter(s => s.sector !== activeFilterValue);
         const extra = others.sort(() => 0.5 - Math.random()).slice(0, 5 - pool.length);
         pool = [...pool, ...extra];
     }
-
-    // Shuffle and pick top 5
     const selected = pool.sort(() => 0.5 - Math.random()).slice(0, 5);
-
-    // Small delay to make the refresh feel "computational"
     setTimeout(() => {
         renderCards(selected);
         if (refreshBtn) {
@@ -186,19 +214,15 @@ function refreshStocks() {
 function renderCards(stocks) {
     const feed = document.getElementById('stock-feed');
     if (!feed) return;
-
     feed.innerHTML = '';
-
     stocks.forEach((stock, idx) => {
         const riskClass = `risk-${stock.riskRating.toLowerCase()}`;
         const upside = (((stock.target - stock.price) / stock.price) * 100).toFixed(1);
         const riskPct = (((stock.price - stock.stop) / stock.price) * 100).toFixed(1);
         const rr = (upside / riskPct).toFixed(2);
-
         const card = document.createElement('div');
         card.className = 'stock-card fade-in';
         card.style.animationDelay = `${idx * 0.1}s`;
-
         card.innerHTML = `
             <div class="rank-pill">#${idx + 1}</div>
             <div class="flex justify-between items-start mb-4">
@@ -211,7 +235,6 @@ function renderCards(stocks) {
                     <p class="text-[7px] text-zinc-600 font-black uppercase mt-1">Live Pivot</p>
                 </div>
             </div>
-
             <div class="grid grid-cols-2 gap-3 mb-4">
                 <div class="bg-black/40 p-3 rounded-xl border border-white/5">
                     <p class="text-[7px] text-zinc-600 uppercase font-black tracking-tighter mb-1">Buy Range</p>
@@ -222,23 +245,22 @@ function renderCards(stocks) {
                     <p class="text-[11px] font-bold text-accent">$${stock.target.toFixed(2)}</p>
                 </div>
             </div>
-
             <div class="flex items-center justify-between pt-3 border-t border-white/5">
                 <div class="flex items-center gap-2">
                     <span class="text-[8px] font-black uppercase ${riskClass}">${stock.riskRating} RISK</span>
                     <span class="rr-badge text-white/40">R:R ${rr}x</span>
                 </div>
-                <div class="text-right">
+                <div class="flex items-center gap-3">
                     <span class="text-[8px] font-black text-accent uppercase">+${upside}% Pot.</span>
+                    <div class="info-trigger p-1 rounded-full bg-accent/10 border border-accent/20">
+                        <i data-lucide="info" class="w-3 h-3 text-accent"></i>
+                    </div>
                 </div>
             </div>
         `;
-
         card.addEventListener('click', () => openModal(stock, upside, riskPct, rr));
         feed.appendChild(card);
     });
-
-    // Refresh Lucide Icons for new cards
     if (window.lucide) window.lucide.createIcons();
 }
 
@@ -246,9 +268,7 @@ function openModal(stock, upside, riskPct, rr) {
     const overlay = document.getElementById('modal-overlay');
     const container = document.getElementById('modal-container');
     if (!overlay || !container) return;
-
     const riskClass = `risk-${stock.riskRating.toLowerCase()}`;
-
     container.innerHTML = `
         <div class="flex items-center justify-between mb-6">
             <div>
@@ -260,7 +280,6 @@ function openModal(stock, upside, riskPct, rr) {
                 <div class="text-xl font-mono font-bold text-accent">$${stock.price.toFixed(2)}</div>
             </div>
         </div>
-
         <div class="space-y-6">
             <section class="p-4 bg-white/2 rounded-2xl border border-white/5">
                 <div class="flex items-center gap-2 mb-3">
@@ -271,12 +290,10 @@ function openModal(stock, upside, riskPct, rr) {
                     ${stock.bullets.map(b => `<li class="flex items-start gap-2"><div class="w-1 h-1 bg-accent rounded-full mt-1.5 shrink-0"></div><span>${b}</span></li>`).join('')}
                 </ul>
             </section>
-
             <section class="p-4 bg-accent/5 rounded-2xl border border-accent/20">
                 <div class="text-[8px] uppercase font-black text-accent/60 mb-1">Primary Catalyst</div>
                 <div class="text-xs font-bold text-white tracking-tight">${stock.catalyst}</div>
             </section>
-
             <div class="grid grid-cols-2 gap-4">
                 <div class="bg-black/40 p-4 rounded-2xl border border-white/5">
                     <div class="text-[7px] text-zinc-600 font-bold uppercase mb-2">3-5D Potential</div>
@@ -289,7 +306,6 @@ function openModal(stock, upside, riskPct, rr) {
                     <div class="text-[8px] text-zinc-500 mt-1">Exit at $${stock.stop.toFixed(2)}</div>
                 </div>
             </div>
-
             <div class="divide-y divide-white/5 border-y border-white/5">
                 <div class="flex justify-between py-3">
                     <span class="text-xs text-zinc-500 font-bold uppercase">Risk Rating</span>
@@ -300,19 +316,14 @@ function openModal(stock, upside, riskPct, rr) {
                     <span class="text-xs font-bold text-white">${rr}x Unit</span>
                 </div>
             </div>
-
             <button id="close-modal-btn" class="w-full py-4 bg-accent text-black rounded-2xl text-[10px] font-black uppercase tracking-widest mt-4 shadow-[0_0_20px_var(--accent-glow)]">
                 Close Intelligence Feed
             </button>
         </div>
     `;
-
     overlay.classList.add('active');
-
-    // Re-bind close button specifically
     const closeBtn = document.getElementById('close-modal-btn');
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
-
     if (window.lucide) window.lucide.createIcons();
 }
 

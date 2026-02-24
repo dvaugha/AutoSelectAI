@@ -9,7 +9,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="styles.css?v=101">
+    <link rel="stylesheet" href="styles.css?v=102">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -41,13 +41,32 @@
             <div>
                 <h1 class="text-xl font-extrabold tracking-tighter italic">ALPHA<span
                         class="text-accent underline">X</span></h1>
-                <p class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-1">v4.0.1 Quantum Logic</p>
+                <p class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-1">v4.0.2 Quantum Logic</p>
             </div>
-            <button id="reset-app"
-                class="p-2 rounded-full bg-white/5 border border-white/5 active:bg-white/10 transition-all">
-                <i data-lucide="zap" class="w-4 h-4 text-accent"></i>
-            </button>
+            <div class="flex gap-2">
+                <button id="strategy-info-btn"
+                    class="p-2 rounded-full bg-accent/10 border border-accent/20 active:bg-accent/20 transition-all">
+                    <i data-lucide="info" class="w-4 h-4 text-accent"></i>
+                </button>
+                <button id="reset-app"
+                    class="p-2 rounded-full bg-white/5 border border-white/5 active:bg-white/10 transition-all">
+                    <i data-lucide="zap" class="w-4 h-4 text-zinc-500"></i>
+                </button>
+            </div>
         </header>
+
+        <!-- QUICK TICKERS -->
+        <div class="px-6 mb-6">
+            <div class="flex items-center gap-2 mb-2">
+                <div class="w-1 h-3 bg-accent rounded-full"></div>
+                <h3 class="text-[9px] uppercase font-black text-zinc-500 tracking-widest">Premium Tickers</h3>
+            </div>
+            <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                <button id="btn-smr" class="quick-ticker-btn">SMR</button>
+                <button id="btn-oklo" class="quick-ticker-btn">OKLO</button>
+                <button id="btn-arkx" class="quick-ticker-btn">ARKX</button>
+            </div>
+        </div>
 
         <main class="p-4 space-y-6 pb-20">
             <!-- Filter Bar -->
@@ -119,7 +138,7 @@
         <!-- Content Injected via JS for Cache Neutrality -->
     </div>
 
-    <script src="app.js?v=101"></script>
+    <script src="app.js?v=102"></script>
 </body>
 
 </html>
