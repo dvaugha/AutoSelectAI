@@ -214,6 +214,7 @@ function startWarningTimer() {
     const warningScreen = document.getElementById('warning-screen');
     const appContainer = document.getElementById('app-container');
 
+    loadingBar.style.transition = 'width 3s linear';
     loadingBar.style.width = '100%';
 
     setTimeout(() => {
@@ -223,7 +224,7 @@ function startWarningTimer() {
             appContainer.classList.remove('hidden');
             renderStocks();
         }, 500);
-    }, 4000);
+    }, 3000);
 }
 
 function initEventListeners() {

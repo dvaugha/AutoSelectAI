@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alpha-x-v2'; // Bumped version to force update
+const CACHE_NAME = 'alpha-x-v3'; // Bumping to v3 to force update
 const ASSETS = [
     'index.html',
     'styles.css',
