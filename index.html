@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -13,13 +14,17 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body class="bg-black text-white font-inter overflow-x-hidden">
 
     <!-- 4-Second Animated Warning -->
-    <div id="warning-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black p-8 text-center">
+    <div id="warning-screen"
+        class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black p-8 text-center">
         <div class="warning-icon mb-6">
             <i data-lucide="alert-triangle" class="w-16 h-16 text-amber-500 animate-pulse"></i>
         </div>
@@ -35,9 +40,11 @@
     <!-- Main App Container -->
     <div id="app-container" class="hidden min-h-screen pb-20">
         <!-- Header -->
-        <header class="p-6 flex items-center justify-between border-b border-white/10 sticky top-0 bg-black/80 backdrop-blur-md z-40">
+        <header
+            class="p-6 flex items-center justify-between border-b border-white/10 sticky top-0 bg-black/80 backdrop-blur-md z-40">
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-600 rounded-lg flex items-center justify-center">
+                <div
+                    class="w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-600 rounded-lg flex items-center justify-center">
                     <i data-lucide="zap" class="w-5 h-5 text-black fill-black"></i>
                 </div>
                 <h2 class="text-xl font-orbitron font-bold tracking-widest italic">ALPHA-X</h2>
@@ -51,9 +58,11 @@
         <section class="p-4 space-y-4">
             <div class="flex items-center justify-between gap-4">
                 <div class="flex-1">
-                    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1 block">Sector Filter</label>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1 block">Sector
+                        Filter</label>
                     <div class="relative">
-                        <select id="market-filter" class="w-full bg-zinc-900 border border-white/10 rounded-xl p-3 text-sm appearance-none focus:outline-none focus:border-emerald-500/50">
+                        <select id="market-filter"
+                            class="w-full bg-zinc-900 border border-white/10 rounded-xl p-3 text-sm appearance-none focus:outline-none focus:border-emerald-500/50">
                             <option value="ALL">ALL SECTORS</option>
                             <option value="Oil & Gas">OIL & GAS</option>
                             <option value="Tech">TECH</option>
@@ -64,15 +73,20 @@
                             <option value="High Volatility">HIGH VOLATILITY</option>
                             <option value="Small Cap">SMALL CAP MOMENTUM</option>
                         </select>
-                        <i data-lucide="chevron-down" class="absolute right-3 top-3 w-4 h-4 text-gray-500 pointer-events-none"></i>
+                        <i data-lucide="chevron-down"
+                            class="absolute right-3 top-3 w-4 h-4 text-gray-500 pointer-events-none"></i>
                     </div>
                 </div>
                 <div class="w-32">
-                    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1 block">Risk Mode</label>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1 block">Risk
+                        Mode</label>
                     <div id="aggression-toggle" class="flex bg-zinc-900 rounded-xl p-1 border border-white/10">
-                        <button data-mode="low" class="mode-btn flex-1 py-2 rounded-lg text-xs font-bold transition-all">C</button>
-                        <button data-mode="mid" class="mode-btn flex-1 py-2 rounded-lg text-xs font-bold bg-white/10 text-white transition-all">B</button>
-                        <button data-mode="high" class="mode-btn flex-1 py-2 rounded-lg text-xs font-bold transition-all text-red-500">H</button>
+                        <button data-mode="low"
+                            class="mode-btn flex-1 py-2 rounded-lg text-xs font-bold transition-all">C</button>
+                        <button data-mode="mid"
+                            class="mode-btn flex-1 py-2 rounded-lg text-xs font-bold bg-white/10 text-white transition-all">B</button>
+                        <button data-mode="high"
+                            class="mode-btn flex-1 py-2 rounded-lg text-xs font-bold transition-all text-red-500">H</button>
                     </div>
                 </div>
             </div>
@@ -84,17 +98,19 @@
         </main>
 
         <!-- Detail View Modal -->
-        <div id="stock-detail-modal" class="fixed inset-0 z-50 hidden">
-            <div class="absolute inset-0 bg-black/90 backdrop-blur-xl"></div>
-            <div class="relative h-full flex flex-col">
+        <div id="stock-detail-modal" class="fixed inset-0 z-50 hidden bg-black">
+            <div class="absolute inset-0 bg-black backdrop-blur-2xl"></div>
+            <div class="relative h-full flex flex-col bg-black">
                 <!-- Modal Header -->
                 <header class="p-6 flex items-center justify-between border-b border-white/10">
-                    <button id="close-detail" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5">
+                    <button id="close-detail"
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5">
                         <i data-lucide="arrow-left" class="w-6 h-6 text-white"></i>
                     </button>
                     <div class="flex flex-col items-center">
                         <span id="detail-ticker" class="text-2xl font-orbitron font-bold"></span>
-                        <span id="detail-name" class="text-[10px] text-gray-500 font-bold uppercase tracking-widest"></span>
+                        <span id="detail-name"
+                            class="text-[10px] text-gray-500 font-bold uppercase tracking-widest"></span>
                     </div>
                     <div class="w-10"></div> <!-- Spacer -->
                 </header>
@@ -107,7 +123,9 @@
                             <div class="w-2 h-6 bg-emerald-400 rounded-full"></div>
                             <h3 class="font-orbitron font-bold text-lg tracking-tight">THE ALPHA PLAY</h3>
                         </div>
-                        <p id="detail-alpha-play" class="text-gray-300 leading-relaxed italic border-l-2 border-white/5 pl-4 py-2 bg-white/2"></p>
+                        <p id="detail-alpha-play"
+                            class="text-gray-300 leading-relaxed italic border-l-2 border-white/5 pl-4 py-2 bg-white/2">
+                        </p>
                     </section>
 
                     <!-- STATS GRID -->
@@ -139,7 +157,8 @@
                     </section>
 
                     <!-- TRADE LEVELS -->
-                    <section class="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 p-6 rounded-3xl border border-white/10">
+                    <section
+                        class="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 p-6 rounded-3xl border border-white/10">
                         <div class="label-mini mb-4 text-emerald-400">Execution Plan</div>
                         <div class="space-y-4">
                             <div class="flex justify-between items-center">
@@ -162,7 +181,8 @@
 
         <!-- Bottom Navigation -->
 
-        <nav class="fixed bottom-0 left-0 right-0 h-16 bg-black/90 backdrop-blur-xl border-t border-white/10 flex items-center justify-around z-40">
+        <nav
+            class="fixed bottom-0 left-0 right-0 h-16 bg-black/90 backdrop-blur-xl border-t border-white/10 flex items-center justify-around z-40">
             <button class="flex flex-col items-center gap-1 text-emerald-400">
                 <i data-lucide="layout-grid" class="w-6 h-6"></i>
                 <span class="text-[10px] uppercase font-bold tracking-tighter">Terminal</span>
@@ -184,4 +204,5 @@
 
     <script src="app.js"></script>
 </body>
+
 </html>

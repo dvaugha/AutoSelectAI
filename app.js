@@ -198,6 +198,7 @@ function initEventListeners() {
     document.getElementById('close-detail').addEventListener('click', () => {
         const modal = document.getElementById('stock-detail-modal');
         modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden'); // Restore scroll
     });
 }
 
@@ -208,6 +209,8 @@ function openDetailModal(stock) {
         console.error('Modal element not found!');
         return;
     }
+
+    document.body.classList.add('overflow-hidden'); // Lock scroll
 
     document.getElementById('detail-ticker').textContent = stock.ticker;
     document.getElementById('detail-name').textContent = stock.name;
