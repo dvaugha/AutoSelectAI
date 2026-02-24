@@ -1,5 +1,5 @@
-console.log("%c ALPHA-X v14 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
-const APP_VERSION = '14';
+console.log("%c ALPHA-X v15 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+const APP_VERSION = '15';
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
@@ -273,10 +273,10 @@ function initEventListeners() {
     });
 
     document.getElementById('refresh-btn').addEventListener('click', () => {
-        const icon = document.querySelector('#refresh-btn i');
-        icon.classList.add('animate-spin');
+        const icon = document.querySelector('#refresh-btn *'); // Target whatever is inside (i or svg)
+        if (icon) icon.classList.add('animate-spin');
         setTimeout(() => {
-            icon.classList.remove('animate-spin');
+            if (icon) icon.classList.remove('animate-spin');
             renderStocks();
         }, 1000);
     });
