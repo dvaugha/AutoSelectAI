@@ -1,26 +1,26 @@
-console.log("%c ALPHA-X v8 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+console.log("%c ALPHA-X v9 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
         ticker: 'NVDA',
         name: 'Nvidia Corp',
         sector: 'Tech',
-        entry: '722.40 - 725.00',
-        target: '795.00',
-        stop: '710.00',
+        entry: '188.50 - 192.00',
+        target: '214.00',
+        stop: '184.50',
         confidence: 94,
         strategy: 'AI-related',
         volatility: 'High',
         cap: 'Large',
-        reason: 'Extreme demand for H200 chips. Options activity shows massive bull sweeps.',
+        reason: 'Consolidating at split-adjusted highs. 191.55 close confirms a major liquidity floor.',
         details: {
             catalysts: ['Upcoming earnings beat projected', 'GTC conference hype', 'New TPU partnership rumors'],
-            technicals: { rsi: 68, macd: 'Bullish Crossover', volume: '1.4x Avg' },
+            technicals: { rsi: 62, macd: 'Bullish Crossover', volume: '1.4x Avg' },
             sentiment: 92,
-            alpha_play: 'NVDA is currently in a "blue sky" breakout phase. The short-term return is driven by a gamma squeeze in the options market where market makers are forced to hedge as price approaches the $800 strike. We expect a rapid 7-9% move before exhaustion sets in.',
-            history: [620, 635, 610, 655, 680, 710, 695, 722],
+            alpha_play: 'NVDA is currently in a "blue sky" breakout phase following the recent split. The 191.55 level is a critical psychological anchor. We expect a rapid 12% move as institutional accumulation accelerates.',
+            history: [165, 172, 180, 178, 184, 190, 188, 191.55],
             volume_history: [120, 145, 110, 180, 210, 250, 230, 280],
-            chart_insight: "Notice the volume-backed accumulation base around $630 before the breakout.",
+            chart_insight: "Notice the volume-backed accumulation base around $188 before the breakout.",
             evidence_links: [
                 { label: "SEC 13F: Institutional Accumulation", url: "https://www.sec.gov/edgar/searchedgar/companysearch.html" },
                 { label: "Earnings Forecast Summary", url: "https://www.nasdaq.com/market-activity/stocks/nvda/earnings" },
