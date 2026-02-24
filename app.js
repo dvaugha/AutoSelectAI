@@ -1,4 +1,4 @@
-console.log("%c ALPHA-X v7 ACTIVE ", "background: #00FF00; color: #000; font-weight: bold;");
+console.log("%c ALPHA-X v8 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
@@ -287,7 +287,7 @@ function openDetailModal(stock) {
 
     if (currentPrice <= highEntry * 1.02) { // Within 2% of entry zone
         detailSignalEl.textContent = "STRONG BUY NOW";
-        detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#00FF00] text-black shadow-[0_0_10px_#00FF00]";
+        detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-neon text-black shadow-[0_0_10px_rgba(0,255,255,0.5)]";
     } else {
         detailSignalEl.textContent = "WATCH / WAIT";
         detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-zinc-800 text-gray-400";
@@ -308,7 +308,7 @@ function openDetailModal(stock) {
         const li = document.createElement('li');
         li.className = 'flex items-start gap-3 text-sm text-gray-400';
         li.innerHTML = `
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-[#00FF00] mt-1 shrink-0"></i>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-neon mt-1 shrink-0"></i>
             <span>${c}</span>
         `;
         catalystsList.appendChild(li);
@@ -323,8 +323,8 @@ function openDetailModal(stock) {
         a.rel = 'noopener noreferrer';
         a.className = 'flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all group';
         a.innerHTML = `
-            <span class="text-sm font-medium text-gray-300 group-hover:text-[#00FF00]">${link.label}</span>
-            <i data-lucide="external-link" class="w-4 h-4 text-gray-500 group-hover:text-[#00FF00]"></i>
+            <span class="text-sm font-medium text-gray-300 group-hover:text-neon">${link.label}</span>
+            <i data-lucide="external-link" class="w-4 h-4 text-gray-500 group-hover:text-neon"></i>
         `;
         linksContainer.appendChild(a);
     });
@@ -346,8 +346,8 @@ function initChart(stock) {
     }
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-    gradient.addColorStop(0, 'rgba(0, 255, 0, 0.2)');
-    gradient.addColorStop(1, 'rgba(0, 255, 0, 0)');
+    gradient.addColorStop(0, 'rgba(0, 255, 255, 0.2)');
+    gradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
 
     globalChart = new Chart(ctx, {
         data: {
@@ -357,7 +357,7 @@ function initChart(stock) {
                     type: 'line',
                     label: 'Price Action',
                     data: stock.details.history,
-                    borderColor: '#00FF00',
+                    borderColor: '#00FFFF',
                     borderWidth: 3,
                     backgroundColor: gradient,
                     fill: true,
@@ -405,7 +405,7 @@ function initChart(stock) {
                     display: true,
                     position: 'left',
                     grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false },
-                    ticks: { color: '#00ff9d', font: { size: 10, family: 'Orbitron' } }
+                    ticks: { color: '#00FFFF', font: { size: 10, family: 'Orbitron' } }
                 },
                 y1: {
                     type: 'linear',
@@ -436,9 +436,9 @@ function renderStocks() {
 
     // Update Filter Visibility/Style
     if (currentFilter !== 'ALL') {
-        filterEl.classList.add('border-[#00FF00]/50', 'bg-[#00FF00]/5');
+        filterEl.classList.add('border-neon', 'bg-neon/5');
     } else {
-        filterEl.classList.remove('border-[#00FF00]/50', 'bg-[#00FF00]/5');
+        filterEl.classList.remove('border-neon', 'bg-neon/5');
     }
 
     // Add Sector Header
@@ -446,8 +446,8 @@ function renderStocks() {
     sectorHeader.className = 'flex items-center justify-between mt-2 mb-4 px-2';
     sectorHeader.innerHTML = `
         <div class="flex items-center gap-2.5">
-            <div class="w-2 h-2 rounded-full bg-[#00FF00] shadow-[0_0_10px_#00FF00] animate-pulse"></div>
-            <span class="text-sm font-orbitron font-extrabold text-[#00FF00] uppercase tracking-[0.2em] drop-shadow-[0_0_5px_rgba(0,255,0,0.5)]">
+            <div class="w-2 h-2 rounded-full bg-neon shadow-[0_0_10px_#00FFFF] animate-pulse"></div>
+            <span class="text-sm font-orbitron font-extrabold text-neon uppercase tracking-[0.2em] drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">
                 ${currentFilter === 'ALL' ? 'ALL SECTORS' : currentFilter} FEED
             </span>
         </div>
@@ -537,8 +537,8 @@ function renderStocks() {
 }
 
 function getConfidenceColor(score) {
-    if (score >= 90) return 'text-[#00FF00] text-glow-primary';
-    if (score >= 80) return 'text-[#00FF00]';
+    if (score >= 90) return 'text-neon text-glow-primary';
+    if (score >= 80) return 'text-neon';
     if (score >= 70) return 'text-blue-400';
     return 'text-amber-400';
 }

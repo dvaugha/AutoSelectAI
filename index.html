@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Alpha-X">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=7">
+    <link rel="stylesheet" href="styles.css?v=8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -59,19 +59,18 @@
         <section
             class="px-6 py-2 bg-zinc-900/50 border-b border-white/5 flex items-center gap-6 overflow-x-auto no-scrollbar">
             <div class="flex items-center gap-2 shrink-0">
-                <span
-                    class="text-[10px] font-orbitron font-bold text-[#00FF00] uppercase tracking-tighter shadow-sm">S&P
+                <span class="text-[10px] font-orbitron font-bold text-neon uppercase tracking-tighter shadow-sm">S&P
                     500</span>
                 <span id="index-spy" class="text-xs font-bold text-emerald-400">5,088.80 (+1.2%)</span>
             </div>
             <div class="flex items-center gap-2 shrink-0">
                 <span
-                    class="text-[10px] font-orbitron font-bold text-[#00FF00] uppercase tracking-tighter shadow-sm">DOW</span>
+                    class="text-[10px] font-orbitron font-bold text-neon uppercase tracking-tighter shadow-sm">DOW</span>
                 <span id="index-dow" class="text-xs font-bold text-emerald-400">39,131.53 (+0.8%)</span>
             </div>
             <div class="flex items-center gap-2 shrink-0">
                 <span
-                    class="text-[10px] font-orbitron font-bold text-[#00FF00] uppercase tracking-tighter shadow-sm">NASDAQ</span>
+                    class="text-[10px] font-orbitron font-bold text-neon uppercase tracking-tighter shadow-sm">NASDAQ</span>
                 <span id="index-ndx" class="text-xs font-bold text-emerald-400">16,041.62 (+1.5%)</span>
             </div>
             <div class="flex items-center gap-2 shrink-0">
@@ -84,8 +83,7 @@
         <section class="p-4 space-y-4">
             <div class="flex items-center justify-between gap-4">
                 <div class="flex-1">
-                    <label
-                        class="text-[10px] uppercase tracking-widest text-[#00FF00] font-bold mb-1 block shadow-sm">Sector
+                    <label class="text-[10px] uppercase tracking-widest text-neon font-bold mb-1 block shadow-sm">Sector
                         Filter</label>
                     <div class="relative">
                         <select id="market-filter"
@@ -136,7 +134,7 @@
                     </button>
                     <div class="flex flex-col items-center">
                         <span id="detail-ticker"
-                            class="text-3xl font-orbitron font-extrabold text-[#00FF00] drop-shadow-[0_0_8px_rgba(0,255,0,0.4)]"></span>
+                            class="text-3xl font-orbitron font-extrabold text-neon drop-shadow-[0_0_8px_rgba(0,255,255,0.4)]"></span>
                         <div class="flex items-center gap-2 mt-1">
                             <span id="detail-live-price" class="text-xl font-orbitron font-bold text-white"></span>
                             <span id="detail-live-signal"
@@ -260,7 +258,7 @@
             alert("Error: " + msg + "\nURL: " + url + "\nLine: " + line);
         };
     </script>
-    <script src="app.js?v=7"></script>
+    <script src="app.js?v=8"></script>
 </body>
 
 </html>

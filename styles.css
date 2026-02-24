@@ -1,9 +1,9 @@
 @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
 
 :root {
-    --primary: #00FF00;
-    /* Pure Blinding Neon Green */
-    --primary-glow: rgba(0, 255, 0, 0.6);
+    --primary: #00FFFF;
+    /* Electric Cyan */
+    --primary-glow: rgba(0, 255, 255, 0.4);
     --danger: #ff3b3b;
     --warning: #f59e0b;
     --bg-dark: #09090b;
@@ -157,8 +157,16 @@ body {
 }
 
 /* Typography Helpers */
+.text-neon {
+    color: #00FFFF !important;
+}
+
 .text-glow-primary {
-    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+}
+
+.bg-neon {
+    background-color: #00FFFF !important;
 }
 
 .label-mini {
