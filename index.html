@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Alpha-X">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="styles.css?v=17">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -150,8 +150,8 @@
                     <div class="w-10"></div> <!-- Spacer -->
                 </header>
 
-                <!-- Modal Content -->
-                <div class="flex-1 overflow-y-auto p-6 space-y-8 pb-32">
+                <!-- Modal Content (High Density) -->
+                <div class="flex-1 overflow-y-auto p-4 space-y-5 pb-32">
                     <!-- ALPHA PLAY SECTION -->
                     <section>
                         <div class="flex items-center gap-2 mb-4">
@@ -188,25 +188,16 @@
                         </section>
                     </section>
 
-                    <!-- STRIKE WALL VISUALIZER (COMPACT) -->
+                    <!-- STRIKE WALL (ULTRA DENSE) -->
                     <section>
                         <div class="flex items-center gap-2 mb-2">
                             <div class="w-1 h-3 bg-neon rounded-full"></div>
-                            <h3 class="text-[10px] uppercase font-black tracking-widest text-white/70">Institutional
-                                Magnet</h3>
+                            <h3 class="text-[10px] uppercase font-black tracking-widest text-white/70">Liquidity Levels
+                            </h3>
                         </div>
-                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5 relative overflow-hidden">
+                        <div class="bg-zinc-900/50 p-3 rounded-xl border border-white/5 relative overflow-hidden">
                             <div id="strike-wall-container" class="space-y-2 relative z-10">
                                 <!-- Strike bars injected here -->
-                            </div>
-                            <!-- Pro Explanation (Ultra Compact) -->
-                            <div class="mt-4 p-3 bg-neon/5 rounded-xl border border-neon/10 border-dashed">
-                                <p class="text-[9px] text-gray-400 leading-tight">
-                                    <span class="text-neon font-black uppercase tracking-tighter">Logic:</span>
-                                    Mapped Dark Pool liquidity. Massive bars act as a <span
-                                        class="text-white font-bold">Gamma Magnet</span> pulling price through the path
-                                    of least resistance.
-                                </p>
                             </div>
                         </div>
                     </section>
@@ -308,7 +299,7 @@
             alert("Error: " + msg + "\nURL: " + url + "\nLine: " + line);
         };
     </script>
-    <script src="app.js?v=16"></script>
+    <script src="app.js?v=17"></script>
 </body>
 
 </html>
