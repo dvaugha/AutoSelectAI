@@ -1,5 +1,6 @@
-console.log("%c ALPHA-X v20 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
-const APP_VERSION = '20';
+console.log("%c ALPHA-X v21 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+const APP_VERSION = '21';
+
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
@@ -273,7 +274,7 @@ function initEventListeners() {
     });
 
     document.getElementById('refresh-btn').addEventListener('click', () => {
-        const icon = document.querySelector('#refresh-btn *'); // Target whatever is inside (i or svg)
+        const icon = document.querySelector('#refresh-btn *');
         if (icon) icon.classList.add('animate-spin');
         setTimeout(() => {
             if (icon) icon.classList.remove('animate-spin');
@@ -284,46 +285,38 @@ function initEventListeners() {
     document.getElementById('close-detail').addEventListener('click', () => {
         const modal = document.getElementById('stock-detail-modal');
         modal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden'); // Restore scroll
+        document.body.classList.remove('overflow-hidden');
     });
 }
 
 function openDetailModal(stock) {
-    console.log('Opening modal for:', stock.ticker);
+    console.log('Opening modal v21 for:', stock.ticker);
     const modal = document.getElementById('stock-detail-modal');
-    if (!modal) {
-        alert("CRITICAL: stock-detail-modal not found!");
+    const modalCore = document.getElementById('modal-core-v21');
+    if (!modal || !modalCore) {
+        alert("Sync Error: Refresh to v21 required via Cyan Zap icon.");
         return;
     }
 
     const safeSetText = (id, text) => {
         const el = document.getElementById(id);
-        if (el) {
-            el.textContent = text;
-        } else {
-            console.error(`ID not found: ${id}`);
-            // alert(`ID not found: ${id}`); // Disabled alerts to avoid spam, using console
-        }
+        if (el) el.textContent = text;
     };
 
-    document.body.classList.add('overflow-hidden'); // Lock scroll
+    document.body.classList.add('overflow-hidden');
 
+    // Headers
     safeSetText('detail-ticker', stock.ticker);
-
-    // Set Live Price & Signal Logic
     const currentPrice = stock.details.history[stock.details.history.length - 1];
     const detailPriceEl = document.getElementById('detail-live-price');
     const detailSignalEl = document.getElementById('detail-live-signal');
-
     if (detailPriceEl) detailPriceEl.textContent = `$${currentPrice.toFixed(2)}`;
 
-    // Evaluate if "NOW" is a good time (Logic: Based on Entry Zone proximity)
+    // Entry Logic for Signal
     const entryRange = stock.entry.split(' - ');
-    const lowEntry = parseFloat(entryRange[0]);
-    const highEntry = parseFloat(entryRange[1]);
-
+    const highEntry = parseFloat(entryRange[1] || entryRange[0]);
     if (detailSignalEl) {
-        if (currentPrice <= highEntry * 1.02) { // Within 2% of entry zone
+        if (currentPrice <= highEntry * 1.02) {
             detailSignalEl.textContent = "STRONG BUY NOW";
             detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-neon text-black shadow-[0_0_10px_rgba(0,255,255,0.5)]";
         } else {
@@ -332,97 +325,118 @@ function openDetailModal(stock) {
         }
     }
 
-    safeSetText('detail-alpha-play', stock.details.alpha_play);
-
-    // Alpha Meter Visualization
     const rs = stock.details.alpha_rs || 2.5;
     const meterVal = Math.min(100, (rs / 10) * 100);
-    const meterBar = document.getElementById('alpha-meter-bar');
-    if (meterBar) meterBar.style.width = `${meterVal}%`;
-    safeSetText('alpha-meter-val', `+${rs}% Alpha`);
 
-    // Strike Wall Visualization
-    const wallContainer = document.getElementById('strike-wall-container');
-    if (wallContainer) {
-        wallContainer.innerHTML = '';
-        const strikes = stock.details.strike_wall || [
-            { strike: (parseFloat(stock.target) * 0.95).toFixed(2), volume: 40 },
-            { strike: (parseFloat(stock.target)).toFixed(2), volume: 80 }
-        ];
+    // Build the ultra-compact layout directly in JS
+    modalCore.innerHTML = `
+        <div class="space-y-4">
+            <!-- ALPHA PLAY -->
+            <section class="border-l border-white/10 pl-3">
+                <div class="text-[9px] uppercase font-black text-emerald-400/60 mb-1 tracking-tighter">The Alpha Play</div>
+                <p class="text-[11px] text-gray-300 italic leading-tight">"${stock.details.alpha_play}"</p>
+            </section>
 
-        strikes.forEach(s => {
-            const item = document.createElement('div');
-            item.className = 'group flex items-center gap-2';
-            item.innerHTML = `
-                <div class="w-12 text-[8px] font-orbitron font-bold text-white shrink-0">$${s.strike}</div>
-                <div class="flex-1 h-0.5 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-neon shadow-[0_0_3px_#00FFFF] transition-all duration-1000" style="width: 0%"></div>
+            <!-- DENSITY DASHBOARD -->
+            <div class="grid grid-cols-2 gap-2">
+                <div class="bg-zinc-900/50 p-2 rounded-lg border border-white/5">
+                    <div class="text-[7px] text-zinc-600 font-bold mb-1 uppercase">Rel Dom</div>
+                    <div class="h-1 w-full bg-zinc-800 rounded-full mb-1"><div class="h-full bg-neon shadow-[0_0_5px_#00FFFF]" style="width: ${meterVal}%"></div></div>
+                    <div class="text-[9px] font-orbitron font-bold text-neon">+${rs}% vs SPY</div>
                 </div>
-                <div class="w-6 text-[7px] font-black text-gray-600 shrink-0 text-right">${s.volume}%</div>
-            `;
-            wallContainer.appendChild(item);
-            setTimeout(() => {
-                const bar = item.querySelector('.bg-neon');
-                if (bar) bar.style.width = `${s.volume}%`;
-            }, 100);
-        });
-    }
+                <div class="bg-zinc-900/50 p-2 rounded-lg border border-white/5">
+                    <div class="text-[7px] text-zinc-600 font-bold mb-1 uppercase">Sentiment</div>
+                    <div class="text-[10px] font-orbitron font-bold text-white">${stock.details.sentiment} PTS</div>
+                </div>
+            </div>
 
-    safeSetText('detail-rsi', stock.details.technicals.rsi);
-    safeSetText('detail-macd', stock.details.technicals.macd);
-    safeSetText('detail-volume', stock.details.technicals.volume);
-    safeSetText('detail-sentiment', `${stock.details.sentiment}%`);
-    safeSetText('detail-entry', `$${stock.entry}`);
-    safeSetText('detail-target', `$${stock.displayTarget}`);
-    safeSetText('detail-stop', `$${stock.stop}`);
+            <!-- LIQUIDITY FEED -->
+            <section>
+                <div class="text-[7px] uppercase font-bold text-zinc-500 tracking-widest mb-2 px-1">Institutional Liquidity Levels</div>
+                <div id="magnet-bars-v21" class="space-y-1 pl-1"></div>
+            </section>
 
-    const catalystsList = document.getElementById('detail-catalysts');
-    if (catalystsList) {
-        catalystsList.innerHTML = '';
-        stock.details.catalysts.forEach(c => {
-            const li = document.createElement('li');
-            li.className = 'flex items-start gap-3 text-sm text-gray-400';
-            li.innerHTML = `
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-neon mt-1 shrink-0"></i>
-                <span>${c}</span>
-            `;
-            catalystsList.appendChild(li);
-        });
-    }
+            <!-- STATS ROW -->
+            <div class="flex justify-between py-2 border-y border-white/5 px-2">
+                <div><div class="text-[7px] text-zinc-500 uppercase font-bold">RSI</div><div class="text-[10px] font-orbitron text-white">${stock.details.technicals.rsi}</div></div>
+                <div><div class="text-[7px] text-zinc-500 uppercase font-bold">MACD</div><div class="text-[10px] font-orbitron text-blue-400">${stock.details.technicals.macd}</div></div>
+                <div><div class="text-[7px] text-zinc-500 uppercase font-bold">VOL</div><div class="text-[10px] font-orbitron text-white">${stock.details.technicals.volume}</div></div>
+            </div>
 
-    const linksContainer = document.getElementById('detail-links');
-    if (linksContainer) {
-        linksContainer.innerHTML = '';
-        stock.details.evidence_links.forEach(link => {
-            const a = document.createElement('a');
-            a.href = link.url;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            a.className = 'flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all group';
-            a.innerHTML = `
-                <span class="text-sm font-medium text-gray-300 group-hover:text-neon">${link.label}</span>
-                <i data-lucide="external-link" class="w-4 h-4 text-gray-500 group-hover:text-neon"></i>
-            `;
-            linksContainer.appendChild(a);
-        });
-    }
+            <!-- CHART -->
+            <section>
+                <div class="bg-black/40 rounded-xl border border-white/5 h-40 relative">
+                    <canvas id="stock-history-chart"></canvas>
+                </div>
+            </section>
 
-    safeSetText('chart-insight', stock.details.chart_insight);
+            <!-- LEVELS -->
+            <div class="grid grid-cols-3 gap-2">
+                <div class="text-center bg-zinc-900/40 p-2 rounded-lg"><div class="text-[7px] text-zinc-500 uppercase">Entry</div><div class="text-[10px] font-bold text-white">$${stock.entry}</div></div>
+                <div class="text-center bg-emerald-400/5 p-2 rounded-lg"><div class="text-[7px] text-emerald-400/40 uppercase">Target</div><div class="text-[10px] font-bold text-emerald-400">$${stock.displayTarget}</div></div>
+                <div class="text-center bg-rose-400/5 p-2 rounded-lg"><div class="text-[7px] text-rose-400/40 uppercase">Stop</div><div class="text-[10px] font-bold text-rose-500">$${stock.stop}</div></div>
+            </div>
+
+            <!-- TRAY -->
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                   <div class="text-[7px] text-zinc-600 mb-1 uppercase font-bold">Catalysts</div>
+                   <ul id="v21-cats" class="text-[9px] text-gray-500 space-y-0.5"></ul>
+                </div>
+                <div>
+                   <div class="text-[7px] text-zinc-600 mb-1 uppercase font-bold">Evidence</div>
+                   <div id="v21-links" class="text-[9px] text-neon space-y-0.5"></div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Bars
+    const magnetContainer = document.getElementById('magnet-bars-v21');
+    const strikes = stock.details.strike_wall || [
+        { strike: 195, volume: 40 },
+        { strike: 200, volume: 80 }
+    ];
+    strikes.forEach(s => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center gap-2 overflow-hidden';
+        item.innerHTML = `
+            <div class="w-10 text-[7px] font-orbitron font-bold text-white shrink-0">$${s.strike}</div>
+            <div class="flex-1 h-0.5 bg-white/5 rounded-full"><div class="h-full bg-neon shadow-[0_0_3px_#00FFFF] transition-all duration-1000" style="width: 0%"></div></div>
+            <div class="w-6 text-[7px] font-bold text-gray-600 text-right">${s.volume}%</div>
+        `;
+        magnetContainer.appendChild(item);
+        setTimeout(() => {
+            const bar = item.querySelector('.bg-neon');
+            if (bar) bar.style.width = `${s.volume}%`;
+        }, 100);
+    });
+
+    const catList = document.getElementById('v21-cats');
+    stock.details.catalysts.forEach(c => {
+        const li = document.createElement('li');
+        li.textContent = `• ${c}`;
+        catList.appendChild(li);
+    });
+
+    const linkBox = document.getElementById('v21-links');
+    stock.details.evidence_links.forEach(l => {
+        const a = document.createElement('a');
+        a.href = l.url; a.target = "_blank"; a.className = "block truncate";
+        a.textContent = `↗ ${l.label}`;
+        linkBox.appendChild(a);
+    });
 
     modal.classList.remove('hidden');
     lucide.createIcons();
-
     setTimeout(() => initChart(stock), 300);
 }
 
 function initChart(stock) {
     const ctx = document.getElementById('stock-history-chart').getContext('2d');
+    if (globalChart) globalChart.destroy();
 
-    if (globalChart) {
-        globalChart.destroy();
-    }
-
-    const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+    const gradient = ctx.createLinearGradient(0, 0, 0, 160);
     gradient.addColorStop(0, 'rgba(0, 255, 255, 0.2)');
     gradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
 
@@ -432,77 +446,33 @@ function initChart(stock) {
             datasets: [
                 {
                     type: 'line',
-                    label: 'Price Action',
                     data: stock.details.history,
                     borderColor: '#00FFFF',
-                    borderWidth: 3,
+                    borderWidth: 2,
                     backgroundColor: gradient,
                     fill: true,
                     tension: 0.4,
-                    pointBackgroundColor: '#00ff9d',
-                    pointBorderColor: '#000',
-                    pointHoverRadius: 6,
-                    pointRadius: 2,
+                    pointRadius: 0,
                     yAxisID: 'y'
-                },
-                {
-                    type: 'bar',
-                    label: 'Volume',
-                    data: stock.details.volume_history,
-                    backgroundColor: 'rgba(59, 130, 246, 0.2)', // Blue-ish transparent bars
-                    borderColor: 'rgba(59, 130, 246, 0.5)',
-                    borderWidth: 1,
-                    borderRadius: 4,
-                    yAxisID: 'y1',
-                    barPercentage: 0.5
                 }
             ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: '#18181b',
-                    titleColor: '#71717a',
-                    bodyColor: '#fff',
-                    borderColor: 'rgba(255,255,255,0.1)',
-                    borderWidth: 1,
-                    displayColors: true
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
-                x: {
-                    grid: { display: false, drawBorder: false },
-                    ticks: { color: '#52525b', font: { size: 10, family: 'Orbitron' } }
-                },
-                y: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false },
-                    ticks: { color: '#00FFFF', font: { size: 10, family: 'Orbitron' } }
-                },
-                y1: {
-                    type: 'linear',
-                    display: false, // Don't show the volume scale to keep it clean
-                    position: 'right',
-                    grid: { display: false },
-                    max: Math.max(...stock.details.volume_history) * 3 // Scale volume so it stays at the bottom
-                }
+                x: { grid: { display: false }, ticks: { color: '#52525b', font: { size: 8 } } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#52525b', font: { size: 8 } } }
             }
         }
     });
 }
 
-// --- CORE LOGIC ---
 function renderStocks() {
     const list = document.getElementById('stock-list');
-    const filterEl = document.getElementById('market-filter');
     list.innerHTML = '';
 
-    // Filter Logic
     let filtered = ALPHA_STOCKS.filter(s => {
         if (currentFilter === 'ALL') return true;
         if (currentFilter === 'Small Cap') return s.cap === 'Small Cap';
@@ -511,102 +481,31 @@ function renderStocks() {
         return s.sector === currentFilter;
     });
 
-    // Update Filter Visibility/Style
-    if (currentFilter !== 'ALL') {
-        filterEl.classList.add('border-neon', 'bg-neon/5');
-    } else {
-        filterEl.classList.remove('border-neon', 'bg-neon/5');
-    }
-
-    // Add Sector Header
     const sectorHeader = document.createElement('div');
     sectorHeader.className = 'flex items-center justify-between mt-2 mb-4 px-2';
     sectorHeader.innerHTML = `
-        <div class="flex items-center gap-2.5">
-            <div class="w-2 h-2 rounded-full bg-neon shadow-[0_0_10px_#00FFFF] animate-pulse"></div>
-            <span class="text-sm font-orbitron font-extrabold text-neon uppercase tracking-[0.2em] drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">
-                ${currentFilter === 'ALL' ? 'ALL SECTORS' : currentFilter} FEED
-            </span>
+        <div class="flex items-center gap-2">
+            <div class="w-1.5 h-1.5 rounded-full bg-neon shadow-[0_0_8px_#00FFFF]"></div>
+            <span class="text-[10px] font-orbitron font-extrabold text-neon uppercase tracking-widest">${currentFilter} FEED</span>
         </div>
-        <span class="text-[9px] font-bold text-zinc-500 tracking-widest">${filtered.length} ASSETS READY</span>
     `;
     list.appendChild(sectorHeader);
 
-    // Rank based on expected return * probability (Simulated)
-    filtered.forEach(s => {
-        // Mock dynamic scoring based on aggression
-        let multiplier = aggressionLevel === 'high' ? 1.4 : (aggressionLevel === 'low' ? 0.85 : 1.0);
-        s.displayTarget = (parseFloat(s.target) * multiplier).toFixed(2);
-        s.displayConfidence = Math.min(98, Math.round(s.confidence * (1 / multiplier))); // Higher risk = lower confidence
-    });
-
-    filtered.sort((a, b) => b.displayConfidence - a.displayConfidence);
-
-    // Limit to Top 5
-    const top5 = filtered.slice(0, 5);
-
-    top5.forEach((stock, index) => {
+    filtered.forEach((stock, index) => {
         const card = document.createElement('div');
         card.className = 'stock-card fade-in cursor-pointer';
-        card.style.animationDelay = `${index * 0.1}s`;
-
         card.innerHTML = `
-            <div class="rank-badge">#${index + 1}</div>
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-2xl font-orbitron font-bold text-white">${stock.ticker}</span>
-                        <span class="px-2 py-0.5 bg-white/5 rounded text-[10px] text-gray-400 font-bold tracking-widest uppercase">${stock.sector}</span>
-                    </div>
-                    <div class="text-gray-400 text-xs mt-1 font-medium">${stock.name}</div>
-                </div>
-                <div class="text-right">
-                    <div class="text-[10px] uppercase tracking-tighter text-gray-500 font-bold mb-1">AI Conviction</div>
-                    <div class="text-xl font-orbitron font-bold ${getConfidenceColor(stock.displayConfidence)}">${stock.displayConfidence}%</div>
-                </div>
+            <div class="flex justify-between items-start mb-3">
+                <span class="text-xl font-orbitron font-bold text-white">${stock.ticker}</span>
+                <span class="text-lg font-orbitron font-bold ${getConfidenceColor(stock.confidence)}">${stock.confidence}%</span>
             </div>
-
-            <div class="grid grid-cols-2 gap-4 mb-4">
-                <div class="bg-white/5 p-3 rounded-xl border border-white/5 transition-all hover:bg-white/10">
-                    <div class="label-mini mb-1">Entry Zone</div>
-                    <div class="text-sm font-bold text-white">$${stock.entry}</div>
-                </div>
-                <div class="bg-white/5 p-3 rounded-xl border border-white/5 transition-all hover:bg-white/10">
-                    <div class="label-mini mb-1">Target (5-7d)</div>
-                    <div class="text-sm font-bold text-emerald-400">$${stock.displayTarget}</div>
-                </div>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <div class="bg-white/5 p-2 rounded-lg"><div class="label-mini">Entry</div><div class="text-xs text-white">$${stock.entry}</div></div>
+                <div class="bg-white/5 p-2 rounded-lg"><div class="label-mini">Target</div><div class="text-xs text-emerald-400">$${stock.target}</div></div>
             </div>
-
-            <div class="flex items-center justify-between gap-4 mb-4">
-                <div class="flex-1">
-                    <div class="label-mini mb-1">Risk Limit (Stop)</div>
-                    <div class="text-xs font-bold text-rose-500">$${stock.stop}</div>
-                </div>
-                <div class="w-32 h-10">
-                    <svg viewBox="0 0 100 40" class="w-full h-full overflow-visible">
-                        <path class="sparkline-path" d="${generateSparkline()}" fill="none" stroke="${stock.displayConfidence > 80 ? '#10b981' : '#3b82f6'}" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="pt-4 border-t border-white/5">
-                <div class="flex items-center gap-1 mb-2 text-white/40">
-                    <i data-lucide="brain-circuit" class="w-3 h-3 text-emerald-400"></i>
-                    <span class="label-mini text-emerald-400/80">Quant Analysis</span>
-                </div>
-                <p class="text-[11px] leading-relaxed text-gray-400 italic">"${stock.reason}"</p>
-            </div>
+            <div class="text-[10px] text-gray-500 italic truncate italic">"${stock.reason}"</div>
         `;
-        card.onclick = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Stock click triggered for:', stock.ticker);
-            try {
-                openDetailModal(stock);
-            } catch (err) {
-                alert("Modal Error: " + err.message);
-            }
-        };
+        card.onclick = () => openDetailModal(stock);
         list.appendChild(card);
     });
 
@@ -614,39 +513,16 @@ function renderStocks() {
 }
 
 function getConfidenceColor(score) {
-    if (score >= 90) return 'text-neon text-glow-primary';
-    if (score >= 80) return 'text-neon';
-    if (score >= 70) return 'text-blue-400';
+    if (score >= 90) return 'text-neon';
+    if (score >= 80) return 'text-blue-400';
     return 'text-amber-400';
 }
 
-function generateSparkline() {
-    let d = "M0,30";
-    for (let i = 1; i <= 10; i++) {
-        const x = i * 10;
-        const y = 10 + Math.random() * 25;
-        d += ` L${x},${y}`;
-    }
-    return d;
-}
-// Version Check for Forced Reset
 if (localStorage.getItem('alpha_v') !== APP_VERSION) {
-    console.warn("Version mismatch detected. Performing clean sync...");
     localStorage.setItem('alpha_v', APP_VERSION);
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(regs => {
             for (let reg of regs) reg.unregister();
-            // We don't reload automatically to avoid loops, but we'll register fresh
         });
     }
-}
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=' + APP_VERSION)
-            .then(reg => {
-                console.log('SW Registered', reg);
-                reg.update(); // Force check
-            });
-    });
 }

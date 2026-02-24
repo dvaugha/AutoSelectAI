@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Alpha-X">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=20">
+    <link rel="stylesheet" href="styles.css?v=21">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -150,114 +150,9 @@
                     <div class="w-10"></div> <!-- Spacer -->
                 </header>
 
-                <!-- Modal Content (Maximum Density) -->
-                <div class="flex-1 overflow-y-auto p-3 space-y-3 pb-32">
-                    <!-- ALPHA PLAY SECTION (SHRUNK) -->
-                    <section>
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-1 h-3 bg-emerald-400 rounded-full"></div>
-                            <h3 class="text-[10px] uppercase font-black tracking-widest text-emerald-400/70">The Alpha
-                                Play</h3>
-                        </div>
-                        <p id="detail-alpha-play"
-                            class="text-[11px] text-gray-400 leading-snug italic border-l border-white/10 pl-3 py-1 bg-white/1">
-                        </p>
-                    </section>
-
-                    <!-- ALPHA METER & STATS (ULTRA COMPACT) -->
-                    <section class="grid grid-cols-2 gap-2">
-                        <section
-                            class="bg-zinc-900/50 px-3 py-2 rounded-xl border border-white/5 flex flex-col justify-center">
-                            <span
-                                class="text-[8px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-1">Alpha</span>
-                            <div class="h-1 w-full bg-zinc-800 rounded-full mb-1">
-                                <div id="alpha-meter-bar" class="h-full bg-neon shadow-[0_0_5px_#00FFFF]"
-                                    style="width: 75%"></div>
-                            </div>
-                            <span id="alpha-meter-val" class="text-[9px] font-orbitron font-bold text-neon">+4.2%</span>
-                        </section>
-
-                        <section
-                            class="bg-zinc-900/50 px-3 py-2 rounded-xl border border-white/5 flex flex-col justify-center">
-                            <span
-                                class="text-[8px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-1">Sentiment</span>
-                            <div class="flex items-baseline gap-1">
-                                <span id="detail-sentiment"
-                                    class="text-base font-orbitron font-extrabold text-neon leading-none"></span>
-                                <span class="text-[7px] text-zinc-600 font-bold">PTS</span>
-                            </div>
-                        </section>
-                    </section>
-
-                    <!-- LIQUIDITY LEVELS (ULTRA FLAT) -->
-                    <section>
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-1 h-3 bg-neon rounded-full"></div>
-                            <h3 class="text-[10px] uppercase font-black tracking-widest text-white/70">Liquidity Levels
-                            </h3>
-                        </div>
-                        <div id="strike-wall-container" class="space-y-1.5 pl-3">
-                            <!-- Strike bars injected here -->
-                        </div>
-                    </section>
-
-                    <!-- STATS GRID (FLAT & TIGHT) -->
-                    <section class="grid grid-cols-3 gap-2 py-2 border-y border-white/5">
-                        <div class="flex flex-col">
-                            <span class="text-[7px] uppercase font-black text-zinc-600 tracking-tighter">RSI</span>
-                            <span id="detail-rsi" class="text-xs font-orbitron font-bold text-white"></span>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-[7px] uppercase font-black text-zinc-600 tracking-tighter">MACD</span>
-                            <span id="detail-macd" class="text-[10px] font-orbitron font-bold text-blue-400"></span>
-                        </div>
-                        <div class="flex flex-col text-right">
-                            <span class="text-[7px] uppercase font-black text-zinc-600 tracking-tighter">VOL</span>
-                            <span id="detail-volume" class="text-[10px] font-orbitron font-bold text-white"></span>
-                        </div>
-                    </section>
-
-                    <!-- CATALYSTS & LINKS (MINIMAL) -->
-                    <section class="grid grid-cols-2 gap-4">
-                        <div>
-                            <div class="text-[8px] uppercase font-black text-zinc-500 mb-2">Catalysts</div>
-                            <ul id="detail-catalysts" class="space-y-1.5"></ul>
-                        </div>
-                        <div>
-                            <div class="text-[8px] uppercase font-black text-zinc-500 mb-2">Evidence</div>
-                            <div class="space-y-1.5" id="detail-links"></div>
-                        </div>
-                    </section>
-
-                    <!-- HISTORICAL (SHRUNK) -->
-                    <section>
-                        <div class="flex items-center justify-between mb-2">
-                            <div class="text-[8px] uppercase font-black text-zinc-500">90D Pulse</div>
-                        </div>
-                        <div class="bg-black/40 p-2 rounded-xl border border-white/5 h-40 relative">
-                            <canvas id="stock-history-chart"></canvas>
-                        </div>
-                    </section>
-
-                    <!-- TRADE LEVELS -->
-                    <section
-                        class="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 p-6 rounded-3xl border border-white/10">
-                        <div class="label-mini mb-4 text-emerald-400">Execution Plan</div>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-400 text-sm">Entry Zone</span>
-                                <span id="detail-entry" class="font-bold text-white"></span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-400 text-sm">Target (5-7d)</span>
-                                <span id="detail-target" class="font-bold text-emerald-400"></span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-400 text-sm">Stop Loss</span>
-                                <span id="detail-stop" class="font-bold text-rose-500"></span>
-                            </div>
-                        </div>
-                    </section>
+                <!-- Modal Content (Dynamic v21 Core) -->
+                <div id="modal-core-v21" class="flex-1 overflow-y-auto p-3 pb-32">
+                    <!-- Entire UI injected here via app.js to bypass any HTML caching -->
                 </div>
             </div>
         </div>
@@ -290,7 +185,7 @@
             alert("Error: " + msg + "\nURL: " + url + "\nLine: " + line);
         };
     </script>
-    <script src="app.js?v=20"></script>
+    <script src="app.js?v=21"></script>
 </body>
 
 </html>
