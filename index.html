@@ -50,18 +50,65 @@
         </header>
 
         <main class="p-4 space-y-6 pb-20">
-            <!-- Market Status Bar -->
-            <div class="flex items-center justify-between px-2">
-                <div class="flex items-center gap-2">
-                    <div class="w-2 h-2 rounded-full bg-accent shadow-[0_0_10px_#00ffaa] animate-pulse"></div>
-                    <span class="text-[10px] font-bold text-accent uppercase tracking-widest">Live Signals Active</span>
+            <!-- Filter Bar -->
+            <div class="space-y-3">
+                <div class="flex gap-2">
+                    <button id="filter-space" class="filter-btn">
+                        <span>NEW SPACE</span>
+                    </button>
+                    <button id="filter-mining" class="filter-btn">
+                        <span>MINING</span>
+                    </button>
                 </div>
-                <span class="text-[10px] text-zinc-500 font-mono" id="current-time"></span>
+
+                <div class="relative">
+                    <select id="sector-dropdown" class="select-dropdown">
+                        <option value="all">Sectors: All Active</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Energy">Energy</option>
+                        <option value="Financials">Financials</option>
+                        <option value="Industrials">Industrials</option>
+                        <option value="Consumer Discretionary">Consumer Discretionary</option>
+                        <option value="Defense">Defense</option>
+                        <option value="AI & Semiconductors">AI & Semiconductors</option>
+                        <option value="EV & Battery">EV & Battery</option>
+                        <option value="Biotechnology">Biotechnology</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center justify-between px-1">
+                    <button id="refresh-picks"
+                        class="flex items-center gap-2 text-[10px] font-black uppercase text-accent/80 hover:text-accent transition-colors">
+                        <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                        Refresh Picks
+                    </button>
+                    <span id="timestamp" class="text-[8px] font-mono text-zinc-600 uppercase"></span>
+                </div>
+            </div>
+
+            <!-- Market Status Bar -->
+            <div class="flex items-center justify-between px-2 pt-2 border-t border-white/5">
+                <div class="flex items-center gap-2">
+                    <div class="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_#00ffaa] animate-pulse"></div>
+                    <span id="active-filter-label"
+                        class="text-[9px] font-bold text-accent uppercase tracking-widest italic">All Sectors
+                        Feed</span>
+                </div>
+                <span class="text-[9px] text-zinc-600 font-mono tracking-tighter" id="current-time"></span>
             </div>
 
             <!-- Stock Feed -->
             <div id="stock-feed" class="space-y-4">
                 <!-- Cards injected here -->
+            </div>
+
+            <!-- Bottom Disclaimer -->
+            <div class="px-2 pt-8">
+                <p class="text-[8px] text-zinc-600 leading-relaxed uppercase tracking-tight text-center">
+                    For educational purposes only. Not financial advice. <br>
+                    Short-term trading carries significant risk.
+                </p>
             </div>
         </main>
     </div>
