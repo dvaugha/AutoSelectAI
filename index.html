@@ -83,7 +83,85 @@
             <!-- Cards will be injected here -->
         </main>
 
+        <!-- Detail View Modal -->
+        <div id="stock-detail-modal" class="fixed inset-0 z-50 hidden">
+            <div class="absolute inset-0 bg-black/90 backdrop-blur-xl"></div>
+            <div class="relative h-full flex flex-col">
+                <!-- Modal Header -->
+                <header class="p-6 flex items-center justify-between border-b border-white/10">
+                    <button id="close-detail" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5">
+                        <i data-lucide="arrow-left" class="w-6 h-6 text-white"></i>
+                    </button>
+                    <div class="flex flex-col items-center">
+                        <span id="detail-ticker" class="text-2xl font-orbitron font-bold"></span>
+                        <span id="detail-name" class="text-[10px] text-gray-500 font-bold uppercase tracking-widest"></span>
+                    </div>
+                    <div class="w-10"></div> <!-- Spacer -->
+                </header>
+
+                <!-- Modal Content -->
+                <div class="flex-1 overflow-y-auto p-6 space-y-8 pb-32">
+                    <!-- ALPHA PLAY SECTION -->
+                    <section>
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-2 h-6 bg-emerald-400 rounded-full"></div>
+                            <h3 class="font-orbitron font-bold text-lg tracking-tight">THE ALPHA PLAY</h3>
+                        </div>
+                        <p id="detail-alpha-play" class="text-gray-300 leading-relaxed italic border-l-2 border-white/5 pl-4 py-2 bg-white/2"></p>
+                    </section>
+
+                    <!-- STATS GRID -->
+                    <section class="grid grid-cols-2 gap-4">
+                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
+                            <div class="label-mini mb-2">Technical RSI</div>
+                            <div id="detail-rsi" class="text-xl font-orbitron font-bold"></div>
+                        </div>
+                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
+                            <div class="label-mini mb-2">MACD Status</div>
+                            <div id="detail-macd" class="text-lg font-orbitron font-bold text-blue-400"></div>
+                        </div>
+                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
+                            <div class="label-mini mb-2">Volume Profile</div>
+                            <div id="detail-volume" class="text-lg font-orbitron font-bold"></div>
+                        </div>
+                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
+                            <div class="label-mini mb-2">Sentiment Score</div>
+                            <div id="detail-sentiment" class="text-xl font-orbitron font-bold text-emerald-400"></div>
+                        </div>
+                    </section>
+
+                    <!-- CATALYSTS -->
+                    <section>
+                        <div class="label-mini mb-4">Market Catalysts</div>
+                        <ul id="detail-catalysts" class="space-y-3">
+                            <!-- Injected catalysts -->
+                        </ul>
+                    </section>
+
+                    <!-- TRADE LEVELS -->
+                    <section class="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 p-6 rounded-3xl border border-white/10">
+                        <div class="label-mini mb-4 text-emerald-400">Execution Plan</div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Entry Zone</span>
+                                <span id="detail-entry" class="font-bold text-white"></span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Target (5-7d)</span>
+                                <span id="detail-target" class="font-bold text-emerald-400"></span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Stop Loss</span>
+                                <span id="detail-stop" class="font-bold text-rose-500"></span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
         <!-- Bottom Navigation -->
+
         <nav class="fixed bottom-0 left-0 right-0 h-16 bg-black/90 backdrop-blur-xl border-t border-white/10 flex items-center justify-around z-40">
             <button class="flex flex-col items-center gap-1 text-emerald-400">
                 <i data-lucide="layout-grid" class="w-6 h-6"></i>
