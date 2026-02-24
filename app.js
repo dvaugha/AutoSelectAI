@@ -1,4 +1,4 @@
-console.log("%c ALPHA-X v11 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+console.log("%c ALPHA-X v12 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
@@ -278,110 +278,128 @@ function openDetailModal(stock) {
     console.log('Opening modal for:', stock.ticker);
     const modal = document.getElementById('stock-detail-modal');
     if (!modal) {
-        console.error('Modal element not found!');
+        alert("CRITICAL: stock-detail-modal not found!");
         return;
     }
 
+    const safeSetText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = text;
+        } else {
+            console.error(`ID not found: ${id}`);
+            // alert(`ID not found: ${id}`); // Disabled alerts to avoid spam, using console
+        }
+    };
+
     document.body.classList.add('overflow-hidden'); // Lock scroll
 
-    document.getElementById('detail-ticker').textContent = stock.ticker;
+    safeSetText('detail-ticker', stock.ticker);
 
     // Set Live Price & Signal Logic
     const currentPrice = stock.details.history[stock.details.history.length - 1];
     const detailPriceEl = document.getElementById('detail-live-price');
     const detailSignalEl = document.getElementById('detail-live-signal');
 
-    detailPriceEl.textContent = `$${currentPrice.toFixed(2)}`;
+    if (detailPriceEl) detailPriceEl.textContent = `$${currentPrice.toFixed(2)}`;
 
     // Evaluate if "NOW" is a good time (Logic: Based on Entry Zone proximity)
     const entryRange = stock.entry.split(' - ');
     const lowEntry = parseFloat(entryRange[0]);
     const highEntry = parseFloat(entryRange[1]);
 
-    if (currentPrice <= highEntry * 1.02) { // Within 2% of entry zone
-        detailSignalEl.textContent = "STRONG BUY NOW";
-        detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-neon text-black shadow-[0_0_10px_rgba(0,255,255,0.5)]";
-    } else {
-        detailSignalEl.textContent = "WATCH / WAIT";
-        detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-zinc-800 text-gray-400";
+    if (detailSignalEl) {
+        if (currentPrice <= highEntry * 1.02) { // Within 2% of entry zone
+            detailSignalEl.textContent = "STRONG BUY NOW";
+            detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-neon text-black shadow-[0_0_10px_rgba(0,255,255,0.5)]";
+        } else {
+            detailSignalEl.textContent = "WATCH / WAIT";
+            detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-zinc-800 text-gray-400";
+        }
     }
 
-    document.getElementById('detail-alpha-play').textContent = stock.details.alpha_play;
+    safeSetText('detail-alpha-play', stock.details.alpha_play);
 
     // Alpha Meter Visualization
     const rs = stock.details.alpha_rs || 2.5;
     const meterVal = Math.min(100, (rs / 10) * 100);
-    document.getElementById('alpha-meter-bar').style.width = `${meterVal}%`;
-    document.getElementById('alpha-meter-val').textContent = `+${rs}% Alpha`;
+    const meterBar = document.getElementById('alpha-meter-bar');
+    if (meterBar) meterBar.style.width = `${meterVal}%`;
+    safeSetText('alpha-meter-val', `+${rs}% Alpha`);
 
     // Strike Wall Visualization
     const wallContainer = document.getElementById('strike-wall-container');
-    wallContainer.innerHTML = '';
-    const strikes = stock.details.strike_wall || [
-        { strike: parseFloat(stock.target) * 0.95, volume: 40 },
-        { strike: parseFloat(stock.target), volume: 80 }
-    ];
+    if (wallContainer) {
+        wallContainer.innerHTML = '';
+        const strikes = stock.details.strike_wall || [
+            { strike: (parseFloat(stock.target) * 0.95).toFixed(2), volume: 40 },
+            { strike: (parseFloat(stock.target)).toFixed(2), volume: 80 }
+        ];
 
-    strikes.forEach(s => {
-        const item = document.createElement('div');
-        item.className = 'group';
-        item.innerHTML = `
-            <div class="flex justify-between items-center text-[10px] font-bold text-gray-400 mb-1">
-                <span class="font-orbitron text-white">$${s.strike} STRIKE</span>
-                <span>${s.volume}% CALL DENSITY</span>
-            </div>
-            <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                <div class="h-full bg-neon shadow-[0_0_8px_#00FFFF] transition-all duration-1000" style="width: 0%"></div>
-            </div>
-        `;
-        wallContainer.appendChild(item);
-        // Animate in
-        setTimeout(() => {
-            item.querySelector('.bg-neon').style.width = `${s.volume}%`;
-        }, 100);
-    });
+        strikes.forEach(s => {
+            const item = document.createElement('div');
+            item.className = 'group';
+            item.innerHTML = `
+                <div class="flex justify-between items-center text-[10px] font-bold text-gray-400 mb-1">
+                    <span class="font-orbitron text-white">$${s.strike} STRIKE</span>
+                    <span>${s.volume}% CALL DENSITY</span>
+                </div>
+                <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                    <div class="h-full bg-neon shadow-[0_0_8px_#00FFFF] transition-all duration-1000" style="width: 0%"></div>
+                </div>
+            `;
+            wallContainer.appendChild(item);
+            setTimeout(() => {
+                const bar = item.querySelector('.bg-neon');
+                if (bar) bar.style.width = `${s.volume}%`;
+            }, 100);
+        });
+    }
 
-    document.getElementById('detail-rsi').textContent = stock.details.technicals.rsi;
-    document.getElementById('detail-macd').textContent = stock.details.technicals.macd;
-    document.getElementById('detail-volume').textContent = stock.details.technicals.volume;
-    document.getElementById('detail-sentiment').textContent = `${stock.details.sentiment}%`;
-    document.getElementById('detail-entry').textContent = `$${stock.entry}`;
-    document.getElementById('detail-target').textContent = `$${stock.displayTarget}`;
-    document.getElementById('detail-stop').textContent = `$${stock.stop}`;
+    safeSetText('detail-rsi', stock.details.technicals.rsi);
+    safeSetText('detail-macd', stock.details.technicals.macd);
+    safeSetText('detail-volume', stock.details.technicals.volume);
+    safeSetText('detail-sentiment', `${stock.details.sentiment}%`);
+    safeSetText('detail-entry', `$${stock.entry}`);
+    safeSetText('detail-target', `$${stock.displayTarget}`);
+    safeSetText('detail-stop', `$${stock.stop}`);
 
     const catalystsList = document.getElementById('detail-catalysts');
-    catalystsList.innerHTML = '';
-    stock.details.catalysts.forEach(c => {
-        const li = document.createElement('li');
-        li.className = 'flex items-start gap-3 text-sm text-gray-400';
-        li.innerHTML = `
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-neon mt-1 shrink-0"></i>
-            <span>${c}</span>
-        `;
-        catalystsList.appendChild(li);
-    });
+    if (catalystsList) {
+        catalystsList.innerHTML = '';
+        stock.details.catalysts.forEach(c => {
+            const li = document.createElement('li');
+            li.className = 'flex items-start gap-3 text-sm text-gray-400';
+            li.innerHTML = `
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-neon mt-1 shrink-0"></i>
+                <span>${c}</span>
+            `;
+            catalystsList.appendChild(li);
+        });
+    }
 
     const linksContainer = document.getElementById('detail-links');
-    linksContainer.innerHTML = '';
-    stock.details.evidence_links.forEach(link => {
-        const a = document.createElement('a');
-        a.href = link.url;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.className = 'flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all group';
-        a.innerHTML = `
-            <span class="text-sm font-medium text-gray-300 group-hover:text-neon">${link.label}</span>
-            <i data-lucide="external-link" class="w-4 h-4 text-gray-500 group-hover:text-neon"></i>
-        `;
-        linksContainer.appendChild(a);
-    });
+    if (linksContainer) {
+        linksContainer.innerHTML = '';
+        stock.details.evidence_links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.className = 'flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all group';
+            a.innerHTML = `
+                <span class="text-sm font-medium text-gray-300 group-hover:text-neon">${link.label}</span>
+                <i data-lucide="external-link" class="w-4 h-4 text-gray-500 group-hover:text-neon"></i>
+            `;
+            linksContainer.appendChild(a);
+        });
+    }
 
-    document.getElementById('chart-insight').textContent = stock.details.chart_insight;
+    safeSetText('chart-insight', stock.details.chart_insight);
 
     modal.classList.remove('hidden');
     lucide.createIcons();
 
-    // Render Chart after modal is visible
     setTimeout(() => initChart(stock), 300);
 }
 
