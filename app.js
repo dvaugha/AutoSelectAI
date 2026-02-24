@@ -322,8 +322,8 @@ function openDetailModal(stock) {
         a.rel = 'noopener noreferrer';
         a.className = 'flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all group';
         a.innerHTML = `
-            <span class="text-sm font-medium text-gray-300 group-hover:text-emerald-400">${link.label}</span>
-            <i data-lucide="external-link" class="w-4 h-4 text-gray-500 group-hover:text-emerald-400"></i>
+            <span class="text-sm font-medium text-gray-300 group-hover:text-[#00FF00]">${link.label}</span>
+            <i data-lucide="external-link" class="w-4 h-4 text-gray-500 group-hover:text-[#00FF00]"></i>
         `;
         linksContainer.appendChild(a);
     });
@@ -435,9 +435,9 @@ function renderStocks() {
 
     // Update Filter Visibility/Style
     if (currentFilter !== 'ALL') {
-        filterEl.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
+        filterEl.classList.add('border-[#00FF00]/50', 'bg-[#00FF00]/5');
     } else {
-        filterEl.classList.remove('border-emerald-500/50', 'bg-emerald-500/5');
+        filterEl.classList.remove('border-[#00FF00]/50', 'bg-[#00FF00]/5');
     }
 
     // Add Sector Header
@@ -519,7 +519,10 @@ function renderStocks() {
                 <p class="text-[11px] leading-relaxed text-gray-400 italic">"${stock.reason}"</p>
             </div>
         `;
-        card.addEventListener('click', () => openDetailModal(stock));
+        card.addEventListener('click', (e) => {
+            console.log('Card clicked:', stock.ticker);
+            openDetailModal(stock);
+        });
         list.appendChild(card);
     });
 
@@ -527,8 +530,8 @@ function renderStocks() {
 }
 
 function getConfidenceColor(score) {
-    if (score >= 90) return 'text-emerald-400 text-glow-emerald';
-    if (score >= 80) return 'text-emerald-500';
+    if (score >= 90) return 'text-[#00FF00] text-glow-primary';
+    if (score >= 80) return 'text-[#00FF00]';
     if (score >= 70) return 'text-blue-400';
     return 'text-amber-400';
 }
