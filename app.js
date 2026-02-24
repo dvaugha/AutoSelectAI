@@ -1,3 +1,4 @@
+console.log("%c ALPHA-X v6 ACTIVE ", "background: #00FF00; color: #000; font-weight: bold;");
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
@@ -519,10 +520,16 @@ function renderStocks() {
                 <p class="text-[11px] leading-relaxed text-gray-400 italic">"${stock.reason}"</p>
             </div>
         `;
-        card.addEventListener('click', (e) => {
-            console.log('Card clicked:', stock.ticker);
-            openDetailModal(stock);
-        });
+        card.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Stock click triggered for:', stock.ticker);
+            try {
+                openDetailModal(stock);
+            } catch (err) {
+                alert("Modal Error: " + err.message);
+            }
+        };
         list.appendChild(card);
     });
 
