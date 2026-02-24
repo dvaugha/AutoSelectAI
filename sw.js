@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alpha-x-v3'; // Bumping to v3 to force update
+const CACHE_NAME = 'alpha-x-v4'; // Final Force Update for #00FF00
 const ASSETS = [
     'index.html',
     'styles.css',

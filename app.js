@@ -271,7 +271,27 @@ function openDetailModal(stock) {
     document.body.classList.add('overflow-hidden'); // Lock scroll
 
     document.getElementById('detail-ticker').textContent = stock.ticker;
-    document.getElementById('detail-name').textContent = stock.name;
+
+    // Set Live Price & Signal Logic
+    const currentPrice = stock.history[stock.history.length - 1];
+    const detailPriceEl = document.getElementById('detail-live-price');
+    const detailSignalEl = document.getElementById('detail-live-signal');
+
+    detailPriceEl.textContent = `$${currentPrice.toFixed(2)}`;
+
+    // Evaluate if "NOW" is a good time (Logic: Based on Entry Zone proximity)
+    const entryRange = stock.entry.split(' - ');
+    const lowEntry = parseFloat(entryRange[0]);
+    const highEntry = parseFloat(entryRange[1]);
+
+    if (currentPrice <= highEntry * 1.02) { // Within 2% of entry zone
+        detailSignalEl.textContent = "STRONG BUY NOW";
+        detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#00FF00] text-black shadow-[0_0_10px_#00FF00]";
+    } else {
+        detailSignalEl.textContent = "WATCH / WAIT";
+        detailSignalEl.className = "px-2 py-0.5 rounded text-[10px] font-extrabold bg-zinc-800 text-gray-400";
+    }
+
     document.getElementById('detail-alpha-play').textContent = stock.details.alpha_play;
     document.getElementById('detail-rsi').textContent = stock.details.technicals.rsi;
     document.getElementById('detail-macd').textContent = stock.details.technicals.macd;
