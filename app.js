@@ -85,6 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
     initLoader();
     updateTime();
     initGlobalEvents();
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js?v=' + API_VERSION)
+            .then(reg => console.log('SW Registered', reg))
+            .catch(err => console.error('SW Failed', err));
+    }
 });
 
 function initLoader() {
