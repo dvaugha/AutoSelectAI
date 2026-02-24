@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alpha-x-v13';
+const CACHE_NAME = 'alpha-x-v14';
 const ASSETS = [
     'index.html',
     'styles.css',
@@ -15,11 +15,14 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
     event.waitUntil(
-        caches.keys().then((keys) => {
-            return Promise.all(
-                keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-            );
-        })
+        Promise.all([
+            self.clients.claim(),
+            caches.keys().then((keys) => {
+                return Promise.all(
+                    keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+                );
+            })
+        ])
     );
 });
 

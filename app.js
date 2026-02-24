@@ -1,4 +1,5 @@
-console.log("%c ALPHA-X v13 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+console.log("%c ALPHA-X v14 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+const APP_VERSION = '14';
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
@@ -256,6 +257,19 @@ function initEventListeners() {
             btn.classList.add(activeClass);
             renderStocks();
         });
+    });
+
+    document.getElementById('nuclear-refresh').addEventListener('click', () => {
+        if (confirm("FORCE NUCLEAR REFRESH? This will clear all local cache and unregister services.")) {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(regs => {
+                    for (let reg of regs) reg.unregister();
+                    window.location.reload(true);
+                });
+            } else {
+                window.location.reload(true);
+            }
+        }
     });
 
     document.getElementById('refresh-btn').addEventListener('click', () => {
@@ -616,4 +630,25 @@ function generateSparkline() {
         d += ` L${x},${y}`;
     }
     return d;
+}
+// Version Check for Forced Reset
+if (localStorage.getItem('alpha_v') !== APP_VERSION) {
+    console.warn("Version mismatch detected. Performing clean sync...");
+    localStorage.setItem('alpha_v', APP_VERSION);
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => {
+            for (let reg of regs) reg.unregister();
+            // We don't reload automatically to avoid loops, but we'll register fresh
+        });
+    }
+}
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js?v=' + APP_VERSION)
+            .then(reg => {
+                console.log('SW Registered', reg);
+                reg.update(); // Force check
+            });
+    });
 }

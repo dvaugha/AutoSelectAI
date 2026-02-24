@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Alpha-X">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=13">
+    <link rel="stylesheet" href="styles.css?v=14">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -50,9 +50,15 @@
                 </div>
                 <h2 class="text-xl font-orbitron font-bold tracking-widest italic">ALPHA-X</h2>
             </div>
-            <button id="refresh-btn" class="p-2 rounded-full hover:bg-white/5 transition-colors">
-                <i data-lucide="refresh-cw" class="w-5 h-5 text-gray-400"></i>
-            </button>
+            <div class="flex items-center gap-2">
+                <button id="nuclear-refresh"
+                    class="p-2 rounded-full bg-neon/10 border border-neon/20 hover:bg-neon/20 transition-colors">
+                    <i data-lucide="zap" class="w-4 h-4 text-neon"></i>
+                </button>
+                <button id="refresh-btn" class="p-2 rounded-full hover:bg-white/5 transition-colors">
+                    <i data-lucide="refresh-cw" class="w-5 h-5 text-gray-400"></i>
+                </button>
+            </div>
         </header>
 
         <!-- Global Market Pulse -->
@@ -157,29 +163,29 @@
                         </p>
                     </section>
 
-                    <!-- ALPHA METER & STATS (COMPACT) -->
-                    <section class="grid grid-cols-2 gap-3">
-                        <div class="bg-zinc-900/50 p-3 rounded-2xl border border-white/5 relative overflow-hidden">
-                            <div class="label-mini mb-2">Alpha Dominance</div>
-                            <div class="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden mb-1.5">
-                                <div id="alpha-meter-bar" class="h-full bg-neon shadow-[0_0_10px_#00FFFF]"
+                    <!-- ALPHA METER & STATS (ULTRA COMPACT) -->
+                    <section class="grid grid-cols-2 gap-2">
+                        <section
+                            class="bg-zinc-900/50 px-3 py-2 rounded-xl border border-white/5 flex flex-col justify-center">
+                            <span
+                                class="text-[8px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-1">Alpha</span>
+                            <div class="h-1 w-full bg-zinc-800 rounded-full mb-1">
+                                <div id="alpha-meter-bar" class="h-full bg-neon shadow-[0_0_5px_#00FFFF]"
                                     style="width: 75%"></div>
                             </div>
-                            <div
-                                class="flex justify-between text-[8px] font-bold text-zinc-500 uppercase tracking-tighter">
-                                <span id="alpha-meter-val" class="text-neon font-extrabold">+4.2% VS SPY</span>
-                                <span>LEADER</span>
-                            </div>
-                        </div>
+                            <span id="alpha-meter-val" class="text-[9px] font-orbitron font-bold text-neon">+4.2%</span>
+                        </section>
 
-                        <div class="bg-zinc-900/50 p-3 rounded-2xl border border-white/5 flex flex-col justify-center">
-                            <div class="label-mini mb-1">Sentiment</div>
+                        <section
+                            class="bg-zinc-900/50 px-3 py-2 rounded-xl border border-white/5 flex flex-col justify-center">
+                            <span
+                                class="text-[8px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-1">Sentiment</span>
                             <div class="flex items-baseline gap-1">
                                 <span id="detail-sentiment"
-                                    class="text-xl font-orbitron font-extrabold text-neon"></span>
-                                <span class="text-[8px] text-zinc-600 uppercase font-black">Score</span>
+                                    class="text-base font-orbitron font-extrabold text-neon leading-none"></span>
+                                <span class="text-[7px] text-zinc-600 font-bold">PTS</span>
                             </div>
-                        </div>
+                        </section>
                     </section>
 
                     <!-- STRIKE WALL VISUALIZER -->
@@ -303,7 +309,7 @@
             alert("Error: " + msg + "\nURL: " + url + "\nLine: " + line);
         };
     </script>
-    <script src="app.js?v=13"></script>
+    <script src="app.js?v=14"></script>
 </body>
 
 </html>
