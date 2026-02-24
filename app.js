@@ -1,5 +1,5 @@
-console.log("%c ALPHA-X v18 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
-const APP_VERSION = '18';
+console.log("%c ALPHA-X v19 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+const APP_VERSION = '19';
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {

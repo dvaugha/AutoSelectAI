@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alpha-x-v18';
+const CACHE_NAME = 'alpha-x-v19';
 const ASSETS = [
     'index.html',
     'styles.css',
@@ -27,24 +27,20 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    // Network first strategy for scripts and styles to ensure updates
-    if (event.request.url.includes('.js') || event.request.url.includes('.css')) {
-        event.respondWith(
-            fetch(event.request)
-                .then((response) => {
-                    const clonedResponse = response.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, clonedResponse);
-                    });
-                    return response;
-                })
-                .catch(() => caches.match(event.request))
-        );
-    } else {
-        event.respondWith(
-            caches.match(event.request).then((response) => {
-                return response || fetch(event.request);
+    // Aggressive Network-First strategy for EVERY asset during development/syncing
+    event.respondWith(
+        fetch(event.request)
+            .then((response) => {
+                // If network works, update the cache and return response
+                const clonedResponse = response.clone();
+                caches.open(CACHE_NAME).then((cache) => {
+                    cache.put(event.request, clonedResponse);
+                });
+                return response;
             })
-        );
-    }
+            .catch(() => {
+                // If network fails (offline), try the cache
+                return caches.match(event.request);
+            })
+    );
 });
