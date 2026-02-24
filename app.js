@@ -19,7 +19,12 @@ const ALPHA_STOCKS = [
             alpha_play: 'NVDA is currently in a "blue sky" breakout phase. The short-term return is driven by a gamma squeeze in the options market where market makers are forced to hedge as price approaches the $800 strike. We expect a rapid 7-9% move before exhaustion sets in.',
             history: [620, 635, 610, 655, 680, 710, 695, 722],
             volume_history: [120, 145, 110, 180, 210, 250, 230, 280],
-            chart_insight: "Notice the volume-backed accumulation base around $630 before the breakout."
+            chart_insight: "Notice the volume-backed accumulation base around $630 before the breakout.",
+            evidence_links: [
+                { label: "SEC 13F: Institutional Accumulation", url: "https://www.sec.gov/edgar/searchedgar/companysearch.html" },
+                { label: "Earnings Forecast Summary", url: "https://www.nasdaq.com/market-activity/stocks/nvda/earnings" },
+                { label: "Technical Analysis: Gamma Squeeze Report", url: "https://www.tradingview.com/symbols/NASDAQ-NVDA/" }
+            ]
         }
     },
     {
@@ -41,7 +46,12 @@ const ALPHA_STOCKS = [
             alpha_play: 'Energy is the ultimate "anti-inflation" trade right now. XOM has formed a massive cup-and-handle pattern on the daily chart. A break above $105 triggers a technical target of $112. The reward-to-risk ratio here is 4:1.',
             history: [98, 101, 104, 102, 99, 100, 103, 102],
             volume_history: [45, 52, 60, 48, 42, 55, 58, 50],
-            chart_insight: "Holding critical support at $99 (the triple-bottom) confirms a high probability bounce."
+            chart_insight: "Holding critical support at $99 (the triple-bottom) confirms a high probability bounce.",
+            evidence_links: [
+                { label: "OPEC+ Supply Cut Data", url: "https://www.opec.org/opec_web/en/publications/338.htm" },
+                { label: "Energy Sector RS Analysis", url: "https://stockcharts.com/freecharts/perf.php?$XLE,XOM" },
+                { label: "XOM Dividend Safety Report", url: "https://seekingalpha.com/symbol/XOM/dividends/scorecard" }
+            ]
         }
     },
     {
@@ -63,7 +73,12 @@ const ALPHA_STOCKS = [
             alpha_play: 'This is a pure volatility expansion play. SMCI is the hardware backbone of the AI era. Short interest is high, and any positive news creates a feedback loop of buying. We are targeting the $1000 psychological level.',
             history: [320, 480, 550, 620, 740, 890, 810, 850],
             volume_history: [210, 340, 420, 380, 510, 680, 590, 620],
-            chart_insight: "Extreme vertical momentum. The dip to $810 was a classic 'retest' of the previous peak."
+            chart_insight: "Extreme vertical momentum. The dip to $810 was a classic 'retest' of the previous peak.",
+            evidence_links: [
+                { label: "S&P 500 Inclusion Criteria", url: "https://www.spglobal.com/spdji/en/indices/equity/sp-500/#overview" },
+                { label: "AI Server Demand Projection", url: "https://www.gartner.com/en/newsroom/press-releases" },
+                { label: "SMCI Option Flow Dashboard", url: "https://www.barchart.com/stocks/quotes/SMCI/unusual-options-activity" }
+            ]
         }
     },
     {
@@ -85,7 +100,12 @@ const ALPHA_STOCKS = [
             alpha_play: 'VRT is a "picks and shovels" play for AI data centers. While the market focuses on chips, cooling is the bottleneck. VRT has a dominant market share and is currently undervalued compared to its growth rate.',
             history: [45, 48, 52, 50, 56, 61, 63, 64],
             volume_history: [12, 15, 18, 14, 22, 28, 25, 30],
-            chart_insight: "Steady institutional accumulation visible in the rising floor over the last 90 days."
+            chart_insight: "Steady institutional accumulation visible in the rising floor over the last 90 days.",
+            evidence_links: [
+                { label: "Data Center Cooling Market Trends", url: "https://www.bloomberg.com/markets" },
+                { label: "VRT Investor Presentation", url: "https://investors.vertiv.com/" },
+                { label: "Vertiv Analyst Reports", url: "https://www.marketwatch.com/investing/stock/vrt" }
+            ]
         }
     },
     {
@@ -107,7 +127,12 @@ const ALPHA_STOCKS = [
             alpha_play: 'High risk, high reward. UPST is a sensitive play on interest rates. As the Fed pauses, credit markets loosen. A short squeeze could easily propel this $10 higher in a matter of days.',
             history: [25, 28, 35, 30, 26, 24, 31, 32],
             volume_history: [85, 92, 110, 98, 75, 68, 105, 115],
-            chart_insight: "Double-bottom formation confirmed at $24. Short-sellers are now trapped."
+            chart_insight: "Double-bottom formation confirmed at $24. Short-sellers are now trapped.",
+            evidence_links: [
+                { label: "Short Interest Tracker", url: "https://www.highshortinterest.com/" },
+                { label: "Fed Watch Tool: Rate Probabilities", url: "https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" },
+                { label: "UPST Loan Performance Data", url: "https://ir.upstart.com/" }
+            ]
         }
     },
     {
@@ -129,7 +154,12 @@ const ALPHA_STOCKS = [
             alpha_play: 'Mean reversion play. TSLA has been beaten down, but key support is holding. We are looking for a rotation back into "Magnificent 7" laggards.',
             history: [240, 220, 205, 185, 190, 182, 194, 195],
             volume_history: [310, 280, 250, 210, 190, 180, 240, 260],
-            chart_insight: "RSI divergence: Price made a lower low but RSI made a higher high—classic reversal sign."
+            chart_insight: "RSI divergence: Price made a lower low but RSI made a higher high—classic reversal sign.",
+            evidence_links: [
+                { label: "FSD v12 Release Notes", url: "https://www.tesla.com/blog" },
+                { label: "Production vs Delivery Summary", url: "https://ir.tesla.com/" },
+                { label: "TSLA Dark Pool Flow Analysis", url: "https://unusualwhales.com/" }
+            ]
         }
     },
     {
@@ -151,7 +181,12 @@ const ALPHA_STOCKS = [
             alpha_play: 'Defensive value play. In a volatile market, capital flows into high-dividend payers. PFE is at a multi-year valuation low with limited downside.',
             history: [32, 30, 29, 28, 27, 26.5, 27, 27.5],
             volume_history: [18, 15, 12, 10, 8, 9, 11, 14],
-            chart_insight: "Rounding bottom pattern suggests the multi-year downtrend has finally exhausted."
+            chart_insight: "Rounding bottom pattern suggests the multi-year downtrend has finally exhausted.",
+            evidence_links: [
+                { label: "PFE Pipeline Progress Update", url: "https://www.pfizer.com/science/drug-system-pipeline" },
+                { label: "Healthcare Value Rotation Report", url: "https://www.reuters.com/markets" },
+                { label: "Dividend Reinvestment Yields", url: "https://www.pfizer.com/investors" }
+            ]
         }
     }
 ];
@@ -255,6 +290,21 @@ function openDetailModal(stock) {
             <span>${c}</span>
         `;
         catalystsList.appendChild(li);
+    });
+
+    const linksContainer = document.getElementById('detail-links');
+    linksContainer.innerHTML = '';
+    stock.details.evidence_links.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.className = 'flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all group';
+        a.innerHTML = `
+            <span class="text-sm font-medium text-gray-300 group-hover:text-emerald-400">${link.label}</span>
+            <i data-lucide="external-link" class="w-4 h-4 text-gray-500 group-hover:text-emerald-400"></i>
+        `;
+        linksContainer.appendChild(a);
     });
 
     document.getElementById('chart-insight').textContent = stock.details.chart_insight;

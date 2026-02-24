@@ -55,6 +55,28 @@
             </button>
         </header>
 
+        <!-- Global Market Pulse -->
+        <section
+            class="px-6 py-2 bg-zinc-900/50 border-b border-white/5 flex items-center gap-6 overflow-x-auto no-scrollbar">
+            <div class="flex items-center gap-2 shrink-0">
+                <span class="text-[10px] font-orbitron font-bold text-gray-500 uppercase tracking-tighter">S&P
+                    500</span>
+                <span id="index-spy" class="text-xs font-bold text-emerald-400">5,088.80 (+1.2%)</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                <span class="text-[10px] font-orbitron font-bold text-gray-500 uppercase tracking-tighter">DOW</span>
+                <span id="index-dow" class="text-xs font-bold text-emerald-400">39,131.53 (+0.8%)</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                <span class="text-[10px] font-orbitron font-bold text-gray-500 uppercase tracking-tighter">NASDAQ</span>
+                <span id="index-ndx" class="text-xs font-bold text-emerald-400">16,041.62 (+1.5%)</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                <span class="text-[10px] font-orbitron font-bold text-gray-500 uppercase tracking-tighter">VIX</span>
+                <span id="index-vix" class="text-xs font-bold text-rose-400">14.22 (-2.1%)</span>
+            </div>
+        </section>
+
         <!-- Filters & Strategy -->
         <section class="p-4 space-y-4">
             <div class="flex items-center justify-between gap-4">
@@ -155,6 +177,14 @@
                         <ul id="detail-catalysts" class="space-y-3">
                             <!-- Injected catalysts -->
                         </ul>
+                    </section>
+
+                    <!-- EVIDENCE & RESEARCH -->
+                    <section>
+                        <div class="label-mini mb-4">Research & Evidence</div>
+                        <div class="space-y-3" id="detail-links">
+                            <!-- Links injected here -->
+                        </div>
                     </section>
 
                     <!-- HISTORICAL ANALYSIS -->
