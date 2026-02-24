@@ -1,4 +1,4 @@
-console.log("%c ALPHA-X v6 ACTIVE ", "background: #00FF00; color: #000; font-weight: bold;");
+console.log("%c ALPHA-X v7 ACTIVE ", "background: #00FF00; color: #000; font-weight: bold;");
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
@@ -274,7 +274,7 @@ function openDetailModal(stock) {
     document.getElementById('detail-ticker').textContent = stock.ticker;
 
     // Set Live Price & Signal Logic
-    const currentPrice = stock.history[stock.history.length - 1];
+    const currentPrice = stock.details.history[stock.details.history.length - 1];
     const detailPriceEl = document.getElementById('detail-live-price');
     const detailSignalEl = document.getElementById('detail-live-signal');
 
