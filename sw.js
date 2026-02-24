@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alpha-x-v12';
+const CACHE_NAME = 'alpha-x-v13';
 const ASSETS = [
     'index.html',
     'styles.css',

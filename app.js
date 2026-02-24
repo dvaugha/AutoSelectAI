@@ -1,4 +1,4 @@
-console.log("%c ALPHA-X v12 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+console.log("%c ALPHA-X v13 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {

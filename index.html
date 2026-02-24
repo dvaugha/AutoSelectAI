@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Alpha-X">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=12">
+    <link rel="stylesheet" href="styles.css?v=13">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -157,33 +157,28 @@
                         </p>
                     </section>
 
-                    <!-- ALPHA METER & STATS -->
-                    <section class="grid grid-cols-2 gap-4">
-                        <div
-                            class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5 relative overflow-hidden group">
-                            <div class="label-mini mb-3">Relative Dominance</div>
-                            <div class="h-2 w-full bg-zinc-800 rounded-full overflow-hidden relative mb-2">
-                                <div id="alpha-meter-bar"
-                                    class="h-full bg-neon shadow-[0_0_10px_#00FFFF] transition-all duration-1000"
+                    <!-- ALPHA METER & STATS (COMPACT) -->
+                    <section class="grid grid-cols-2 gap-3">
+                        <div class="bg-zinc-900/50 p-3 rounded-2xl border border-white/5 relative overflow-hidden">
+                            <div class="label-mini mb-2">Alpha Dominance</div>
+                            <div class="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden mb-1.5">
+                                <div id="alpha-meter-bar" class="h-full bg-neon shadow-[0_0_10px_#00FFFF]"
                                     style="width: 75%"></div>
                             </div>
                             <div
-                                class="flex justify-between text-[9px] font-bold text-zinc-600 uppercase tracking-tighter">
-                                <span>Lagging SPY</span>
-                                <span class="text-neon" id="alpha-meter-val">+4.2% Alpha</span>
-                                <span>Market Leader</span>
-                            </div>
-                            <div class="mt-3 text-[10px] text-zinc-500 italic leading-tight">
-                                <span class="text-neon font-bold">PRO VIEW:</span> Is this a leader? This tracks "True
-                                Alpha" vs the S&P 500.
+                                class="flex justify-between text-[8px] font-bold text-zinc-500 uppercase tracking-tighter">
+                                <span id="alpha-meter-val" class="text-neon font-extrabold">+4.2% VS SPY</span>
+                                <span>LEADER</span>
                             </div>
                         </div>
 
-                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
-                            <div class="label-mini mb-2">Sentiment Score</div>
-                            <div id="detail-sentiment" class="text-2xl font-orbitron font-extrabold text-neon"></div>
-                            <div class="text-[9px] text-zinc-500 mt-1 uppercase font-bold tracking-widest">Global Social
-                                Pulse</div>
+                        <div class="bg-zinc-900/50 p-3 rounded-2xl border border-white/5 flex flex-col justify-center">
+                            <div class="label-mini mb-1">Sentiment</div>
+                            <div class="flex items-baseline gap-1">
+                                <span id="detail-sentiment"
+                                    class="text-xl font-orbitron font-extrabold text-neon"></span>
+                                <span class="text-[8px] text-zinc-600 uppercase font-black">Score</span>
+                            </div>
                         </div>
                     </section>
 
@@ -308,7 +303,7 @@
             alert("Error: " + msg + "\nURL: " + url + "\nLine: " + line);
         };
     </script>
-    <script src="app.js?v=12"></script>
+    <script src="app.js?v=13"></script>
 </body>
 
 </html>
