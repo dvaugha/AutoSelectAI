@@ -1,5 +1,5 @@
-console.log("%c ALPHA-X v19 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
-const APP_VERSION = '19';
+console.log("%c ALPHA-X v20 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+const APP_VERSION = '20';
 // --- CONFIG ---
 const ALPHA_STOCKS = [
     {
@@ -352,13 +352,13 @@ function openDetailModal(stock) {
 
         strikes.forEach(s => {
             const item = document.createElement('div');
-            item.className = 'group flex items-center gap-3';
+            item.className = 'group flex items-center gap-2';
             item.innerHTML = `
-                <div class="w-16 text-[9px] font-orbitron font-bold text-white shrink-0">$${s.strike}</div>
-                <div class="flex-1 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-neon shadow-[0_0_5px_#00FFFF] transition-all duration-1000" style="width: 0%"></div>
+                <div class="w-12 text-[8px] font-orbitron font-bold text-white shrink-0">$${s.strike}</div>
+                <div class="flex-1 h-0.5 w-full bg-white/5 rounded-full overflow-hidden">
+                    <div class="h-full bg-neon shadow-[0_0_3px_#00FFFF] transition-all duration-1000" style="width: 0%"></div>
                 </div>
-                <div class="w-8 text-[8px] font-black text-gray-500 shrink-0 text-right">${s.volume}%</div>
+                <div class="w-6 text-[7px] font-black text-gray-600 shrink-0 text-right">${s.volume}%</div>
             `;
             wallContainer.appendChild(item);
             setTimeout(() => {
