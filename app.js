@@ -1,5 +1,5 @@
-// ALPHA-X v4.0.4 | Private Neural Rebuild
-const API_VERSION = '404';
+// ALPHA-X v4.0.5 | Private Neural Rebuild
+const API_VERSION = '405';
 
 const STOCK_DATABASE = [
     // AI & SEMIS
@@ -137,9 +137,14 @@ function openStrategyModal() {
     const overlay = document.getElementById('modal-overlay');
     const container = document.getElementById('modal-container');
     container.innerHTML = `
-        <div class="mb-6">
-            <h2 class="text-2xl font-black italic text-accent">INTELLIGENCE STRATEGY</h2>
-            <p class="text-[10px] text-zinc-500 uppercase mt-1">Alpha-X Algorithmic Selection</p>
+        <div class="flex items-center gap-4 mb-8">
+            <button onclick="closeModal()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/5">
+                <i data-lucide="chevron-left" class="w-5 h-5 text-zinc-400"></i>
+            </button>
+            <div>
+                <h2 class="text-2xl font-black italic text-accent">STRATEGY</h2>
+                <p class="text-[10px] text-zinc-500 uppercase">Alpha-X Quant Logic</p>
+            </div>
         </div>
         <div class="space-y-6 text-gray-300 text-sm leading-relaxed">
             <section class="p-4 bg-white/5 rounded-2xl border border-white/5">
@@ -152,11 +157,11 @@ function openStrategyModal() {
                     <li><span class="text-white font-bold">Technical Breakouts:</span> Focusing on VCP patterns and flat base breakouts.</li>
                 </ul>
             </section>
-            <button id="close-report-btn" class="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase text-zinc-500">Close Report</button>
+            <button onclick="closeModal()" class="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase text-zinc-500">Return to Feed</button>
         </div>
     `;
     overlay.classList.add('active');
-    document.getElementById('close-report-btn').onclick = closeModal;
+    if (window.lucide) window.lucide.createIcons();
 }
 
 function handleFilterClick(sectorName, btnId) {
@@ -270,14 +275,21 @@ function openModal(stock, upside, riskPct, rr) {
     if (!overlay || !container) return;
     const riskClass = `risk-${stock.riskRating.toLowerCase()}`;
     container.innerHTML = `
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h2 class="text-3xl font-extrabold tracking-tighter italic">${stock.ticker}</h2>
-                <div class="sector-tag mt-2 inline-block">${stock.sector}</div>
-            </div>
-            <div class="text-right">
-                <div class="text-xs font-bold text-white mb-1">SPOT PRICE</div>
-                <div class="text-xl font-mono font-bold text-accent">$${stock.price.toFixed(2)}</div>
+        <div class="flex items-center gap-4 mb-6">
+            <button onclick="closeModal()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/5">
+                <i data-lucide="chevron-left" class="w-5 h-5 text-zinc-400"></i>
+            </button>
+            <div class="flex-1">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-extrabold tracking-tighter italic">${stock.ticker}</h2>
+                        <div class="sector-tag mt-1 inline-block">${stock.sector}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-[8px] font-bold text-zinc-500 mb-1">SPOT PRICE</div>
+                        <div class="text-xl font-mono font-bold text-accent">$${stock.price.toFixed(2)}</div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="space-y-6">
@@ -317,7 +329,7 @@ function openModal(stock, upside, riskPct, rr) {
                 </div>
             </div>
             <button id="close-modal-btn" class="w-full py-4 bg-accent text-black rounded-2xl text-[10px] font-black uppercase tracking-widest mt-4 shadow-[0_0_20px_var(--accent-glow)]">
-                Close Intelligence Feed
+                Return To Main Feed
             </button>
         </div>
     `;
