@@ -400,6 +400,7 @@ function initChart(stock) {
 // --- CORE LOGIC ---
 function renderStocks() {
     const list = document.getElementById('stock-list');
+    const filterEl = document.getElementById('market-filter');
     list.innerHTML = '';
 
     // Filter Logic
@@ -410,6 +411,27 @@ function renderStocks() {
         if (currentFilter === 'AI-related') return s.strategy === 'AI-related';
         return s.sector === currentFilter;
     });
+
+    // Update Filter Visibility/Style
+    if (currentFilter !== 'ALL') {
+        filterEl.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
+    } else {
+        filterEl.classList.remove('border-emerald-500/50', 'bg-emerald-500/5');
+    }
+
+    // Add Sector Header
+    const sectorHeader = document.createElement('div');
+    sectorHeader.className = 'flex items-center justify-between mb-2 px-2';
+    sectorHeader.innerHTML = `
+        <div class="flex items-center gap-2">
+            <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+            <span class="text-[10px] font-orbitron font-bold text-gray-500 uppercase tracking-widest">
+                ${currentFilter === 'ALL' ? 'ALL SECTORS' : currentFilter} FEED
+            </span>
+        </div>
+        <span class="text-[10px] font-bold text-zinc-600">${filtered.length} ASSETS FOUND</span>
+    `;
+    list.appendChild(sectorHeader);
 
     // Rank based on expected return * probability (Simulated)
     filtered.forEach(s => {
