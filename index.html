@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Alpha-X">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=15">
+    <link rel="stylesheet" href="styles.css?v=16">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -188,25 +188,24 @@
                         </section>
                     </section>
 
-                    <!-- STRIKE WALL VISUALIZER -->
+                    <!-- STRIKE WALL VISUALIZER (COMPACT) -->
                     <section>
-                        <div class="flex items-center gap-2 mb-4">
-                            <div class="w-1.5 h-1.5 rounded-full bg-neon animate-ping"></div>
-                            <h3 class="label-mini text-white">The Strike Wall: Institutional Magnet</h3>
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-1 h-3 bg-neon rounded-full"></div>
+                            <h3 class="text-[10px] uppercase font-black tracking-widest text-white/70">Institutional
+                                Magnet</h3>
                         </div>
-                        <div class="bg-zinc-900/50 p-6 rounded-3xl border border-white/5 relative overflow-hidden">
-                            <div id="strike-wall-container" class="space-y-3 relative z-10">
+                        <div class="bg-zinc-900/50 p-4 rounded-2xl border border-white/5 relative overflow-hidden">
+                            <div id="strike-wall-container" class="space-y-2 relative z-10">
                                 <!-- Strike bars injected here -->
                             </div>
-                            <!-- Pro Explanation -->
-                            <div class="mt-6 p-4 bg-neon/5 rounded-2xl border border-neon/10 border-dashed">
-                                <p class="text-[11px] text-gray-400 leading-relaxed">
-                                    <span class="text-neon font-bold uppercase tracking-widest">The Magnet Logic:</span>
-                                    We've mapped the Dark Pool liquidity and institutional Call walls. These bars
-                                    represent where market makers are heavily hedged.
-                                    If price approaches a <span class="text-white font-bold text-glow-primary">Massive
-                                        Bar</span>, expect a "Gamma Magnet" effect pulling the stock through the path of
-                                    least resistance.
+                            <!-- Pro Explanation (Ultra Compact) -->
+                            <div class="mt-4 p-3 bg-neon/5 rounded-xl border border-neon/10 border-dashed">
+                                <p class="text-[9px] text-gray-400 leading-tight">
+                                    <span class="text-neon font-black uppercase tracking-tighter">Logic:</span>
+                                    Mapped Dark Pool liquidity. Massive bars act as a <span
+                                        class="text-white font-bold">Gamma Magnet</span> pulling price through the path
+                                    of least resistance.
                                 </p>
                             </div>
                         </div>
@@ -309,7 +308,7 @@
             alert("Error: " + msg + "\nURL: " + url + "\nLine: " + line);
         };
     </script>
-    <script src="app.js?v=15"></script>
+    <script src="app.js?v=16"></script>
 </body>
 
 </html>
