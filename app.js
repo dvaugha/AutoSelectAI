@@ -1,5 +1,5 @@
-console.log("%c ALPHA-X v21 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
-const APP_VERSION = '21';
+console.log("%c ALPHA-X v22 ACTIVE ", "background: #00FFFF; color: #000; font-weight: bold;");
+const APP_VERSION = '22';
 
 // --- CONFIG ---
 const ALPHA_STOCKS = [
@@ -350,10 +350,13 @@ function openDetailModal(stock) {
                 </div>
             </div>
 
-            <!-- LIQUIDITY FEED -->
-            <section>
-                <div class="text-[7px] uppercase font-bold text-zinc-500 tracking-widest mb-2 px-1">Institutional Liquidity Levels</div>
-                <div id="magnet-bars-v21" class="space-y-1 pl-1"></div>
+            <!-- LIQUIDITY FEED (STRIKE WALL - HIGH CONTRAST) -->
+            <section class="py-2">
+                <div class="flex items-center justify-between mb-3 px-1">
+                    <div class="text-[8px] uppercase font-bold text-white/50 tracking-widest">Institutional Liquidity Levels</div>
+                    <div class="text-[7px] text-neon/40 font-black">LIVE FEED</div>
+                </div>
+                <div id="magnet-bars-v22" class="space-y-3 pl-1"></div>
             </section>
 
             <!-- STATS ROW -->
@@ -391,25 +394,27 @@ function openDetailModal(stock) {
         </div>
     `;
 
-    // Bars
-    const magnetContainer = document.getElementById('magnet-bars-v21');
+    // Bars (v22 High Contrast)
+    const magnetContainer = document.getElementById('magnet-bars-v22');
     const strikes = stock.details.strike_wall || [
         { strike: 195, volume: 40 },
         { strike: 200, volume: 80 }
     ];
     strikes.forEach(s => {
         const item = document.createElement('div');
-        item.className = 'flex items-center gap-2 overflow-hidden';
+        item.className = 'flex items-center gap-3 overflow-hidden';
         item.innerHTML = `
-            <div class="w-10 text-[7px] font-orbitron font-bold text-white shrink-0">$${s.strike}</div>
-            <div class="flex-1 h-0.5 bg-white/5 rounded-full"><div class="h-full bg-neon shadow-[0_0_3px_#00FFFF] transition-all duration-1000" style="width: 0%"></div></div>
-            <div class="w-6 text-[7px] font-bold text-gray-600 text-right">${s.volume}%</div>
+            <div class="w-12 text-[9px] font-orbitron font-bold text-white shrink-0">$${s.strike}</div>
+            <div class="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden border border-white/5">
+                <div class="h-full bg-neon shadow-[0_0_8px_#00FFFF] transition-all duration-1000" style="width: 0%"></div>
+            </div>
+            <div class="w-8 text-[8px] font-black text-white/40 text-right">${s.volume}%</div>
         `;
         magnetContainer.appendChild(item);
         setTimeout(() => {
             const bar = item.querySelector('.bg-neon');
             if (bar) bar.style.width = `${s.volume}%`;
-        }, 100);
+        }, 150);
     });
 
     const catList = document.getElementById('v21-cats');
