@@ -18,6 +18,7 @@ const ALPHA_STOCKS = [
             sentiment: 92,
             alpha_play: 'NVDA is currently in a "blue sky" breakout phase. The short-term return is driven by a gamma squeeze in the options market where market makers are forced to hedge as price approaches the $800 strike. We expect a rapid 7-9% move before exhaustion sets in.',
             history: [620, 635, 610, 655, 680, 710, 695, 722],
+            volume_history: [120, 145, 110, 180, 210, 250, 230, 280],
             chart_insight: "Notice the volume-backed accumulation base around $630 before the breakout."
         }
     },
@@ -39,6 +40,7 @@ const ALPHA_STOCKS = [
             sentiment: 74,
             alpha_play: 'Energy is the ultimate "anti-inflation" trade right now. XOM has formed a massive cup-and-handle pattern on the daily chart. A break above $105 triggers a technical target of $112. The reward-to-risk ratio here is 4:1.',
             history: [98, 101, 104, 102, 99, 100, 103, 102],
+            volume_history: [45, 52, 60, 48, 42, 55, 58, 50],
             chart_insight: "Holding critical support at $99 (the triple-bottom) confirms a high probability bounce."
         }
     },
@@ -60,6 +62,7 @@ const ALPHA_STOCKS = [
             sentiment: 98,
             alpha_play: 'This is a pure volatility expansion play. SMCI is the hardware backbone of the AI era. Short interest is high, and any positive news creates a feedback loop of buying. We are targeting the $1000 psychological level.',
             history: [320, 480, 550, 620, 740, 890, 810, 850],
+            volume_history: [210, 340, 420, 380, 510, 680, 590, 620],
             chart_insight: "Extreme vertical momentum. The dip to $810 was a classic 'retest' of the previous peak."
         }
     },
@@ -81,6 +84,7 @@ const ALPHA_STOCKS = [
             sentiment: 81,
             alpha_play: 'VRT is a "picks and shovels" play for AI data centers. While the market focuses on chips, cooling is the bottleneck. VRT has a dominant market share and is currently undervalued compared to its growth rate.',
             history: [45, 48, 52, 50, 56, 61, 63, 64],
+            volume_history: [12, 15, 18, 14, 22, 28, 25, 30],
             chart_insight: "Steady institutional accumulation visible in the rising floor over the last 90 days."
         }
     },
@@ -102,6 +106,7 @@ const ALPHA_STOCKS = [
             sentiment: 68,
             alpha_play: 'High risk, high reward. UPST is a sensitive play on interest rates. As the Fed pauses, credit markets loosen. A short squeeze could easily propel this $10 higher in a matter of days.',
             history: [25, 28, 35, 30, 26, 24, 31, 32],
+            volume_history: [85, 92, 110, 98, 75, 68, 105, 115],
             chart_insight: "Double-bottom formation confirmed at $24. Short-sellers are now trapped."
         }
     },
@@ -123,6 +128,7 @@ const ALPHA_STOCKS = [
             sentiment: 55,
             alpha_play: 'Mean reversion play. TSLA has been beaten down, but key support is holding. We are looking for a rotation back into "Magnificent 7" laggards.',
             history: [240, 220, 205, 185, 190, 182, 194, 195],
+            volume_history: [310, 280, 250, 210, 190, 180, 240, 260],
             chart_insight: "RSI divergence: Price made a lower low but RSI made a higher high—classic reversal sign."
         }
     },
@@ -144,6 +150,7 @@ const ALPHA_STOCKS = [
             sentiment: 48,
             alpha_play: 'Defensive value play. In a volatile market, capital flows into high-dividend payers. PFE is at a multi-year valuation low with limited downside.',
             history: [32, 30, 29, 28, 27, 26.5, 27, 27.5],
+            volume_history: [18, 15, 12, 10, 8, 9, 11, 14],
             chart_insight: "Rounding bottom pattern suggests the multi-year downtrend has finally exhausted."
         }
     }
@@ -271,22 +278,36 @@ function initChart(stock) {
     gradient.addColorStop(1, 'rgba(0, 255, 157, 0)');
 
     globalChart = new Chart(ctx, {
-        type: 'line',
         data: {
             labels: ['90d', '75d', '60d', '45d', '30d', '15d', '7d', 'NOW'],
-            datasets: [{
-                label: 'Price Action',
-                data: stock.details.history,
-                borderColor: '#00ff9d',
-                borderWidth: 3,
-                backgroundColor: gradient,
-                fill: true,
-                tension: 0.4,
-                pointBackgroundColor: '#00ff9d',
-                pointBorderColor: '#000',
-                pointHoverRadius: 6,
-                pointRadius: 2
-            }]
+            datasets: [
+                {
+                    type: 'line',
+                    label: 'Price Action',
+                    data: stock.details.history,
+                    borderColor: '#00ff9d',
+                    borderWidth: 3,
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#00ff9d',
+                    pointBorderColor: '#000',
+                    pointHoverRadius: 6,
+                    pointRadius: 2,
+                    yAxisID: 'y'
+                },
+                {
+                    type: 'bar',
+                    label: 'Volume',
+                    data: stock.details.volume_history,
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)', // Blue-ish transparent bars
+                    borderColor: 'rgba(59, 130, 246, 0.5)',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    yAxisID: 'y1',
+                    barPercentage: 0.5
+                }
+            ]
         },
         options: {
             responsive: true,
@@ -299,7 +320,7 @@ function initChart(stock) {
                     bodyColor: '#fff',
                     borderColor: 'rgba(255,255,255,0.1)',
                     borderWidth: 1,
-                    displayColors: false
+                    displayColors: true
                 }
             },
             scales: {
@@ -308,8 +329,18 @@ function initChart(stock) {
                     ticks: { color: '#52525b', font: { size: 10, family: 'Orbitron' } }
                 },
                 y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
                     grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false },
-                    ticks: { color: '#52525b', font: { size: 10, family: 'Orbitron' } }
+                    ticks: { color: '#00ff9d', font: { size: 10, family: 'Orbitron' } }
+                },
+                y1: {
+                    type: 'linear',
+                    display: false, // Don't show the volume scale to keep it clean
+                    position: 'right',
+                    grid: { display: false },
+                    max: Math.max(...stock.details.volume_history) * 3 // Scale volume so it stays at the bottom
                 }
             }
         }
