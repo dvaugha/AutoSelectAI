@@ -1,5 +1,5 @@
-// ALPHA-X v4.0.2 | Private Neural Rebuild
-const API_VERSION = '402';
+// ALPHA-X v4.0.3 | Private Neural Rebuild
+const API_VERSION = '403';
 
 const STOCK_DATABASE = [
     // AI & SEMIS
@@ -60,7 +60,7 @@ function initLoader() {
     if (bar) setTimeout(() => { bar.style.width = '100%'; }, 100);
 
     setTimeout(() => {
-        if (screen) screen.style.opacity = '0';
+        if (screen) screen.classList.add('fade-out');
         setTimeout(() => {
             if (screen) screen.classList.add('hidden');
             if (app) app.classList.remove('hidden');
