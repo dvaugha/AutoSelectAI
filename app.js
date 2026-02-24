@@ -1,5 +1,5 @@
-// ALPHA-X v4.0 | Private Neural Rebuild
-const API_VERSION = '400';
+// ALPHA-X v4.0.1 | Private Neural Rebuild
+const API_VERSION = '401';
 
 const STOCK_DATABASE = [
     // AI & SEMIS
@@ -114,9 +114,11 @@ function refreshStocks() {
 
     // Rotate refresh icon
     const refreshBtn = document.getElementById('refresh-picks');
-    const icon = refreshBtn.querySelector('i');
-    icon.classList.add('animate-spin');
-    setTimeout(() => icon.classList.remove('animate-spin'), 1000);
+    const icon = refreshBtn.querySelector('[data-lucide], svg');
+    if (icon) {
+        icon.classList.add('animate-spin');
+        setTimeout(() => icon.classList.remove('animate-spin'), 1000);
+    }
 
     // Update timestamp
     const now = new Date();
