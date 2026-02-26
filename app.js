@@ -1,45 +1,46 @@
-// ALPHA-X v4.0.5 | Private Neural Rebuild
-const API_VERSION = '405';
+const API_VERSION = '407';
+const FINNHUB_KEY = localStorage.getItem('ALPHA_X_KEY') || '';
+// NOTE: Set this via browser console: localStorage.setItem('ALPHA_X_KEY', 'YOUR_KEY')
 
 const STOCK_DATABASE = [
     // AI & SEMIS
-    { ticker: "NVDA", name: "Nvidia Corp", sector: "AI & Semiconductors", price: 191.55, entry: "188 - 192", target: 215, stop: 182, riskRating: "High", bullets: ["B100 GPU ramp exceeding guidance", "Institutional call volume mapping at 215 peak", "Reclaiming 5-day EMA with 1.4x relative volume"], catalyst: "GTC Conference Hype" },
-    { ticker: "SMCI", name: "Super Micro", sector: "AI & Semiconductors", price: 535.20, entry: "525 - 540", target: 630, stop: 495, riskRating: "High", bullets: ["Mean-reversion play after 20% pullback", "Finding support at 20-day MA", "Strategic AI server dominance"], catalyst: "S&P 500 inclusion rumors" },
-    { ticker: "AMD", name: "Advanced Micro", sector: "AI & Semiconductors", price: 162.40, entry: "160 - 163", target: 188, stop: 154, riskRating: "Moderate", bullets: ["MI300X market share expansion", "Technical breakout from 3-week base", "Bullish MACD cross on daily"], catalyst: "Enterprise AI adoption" },
-    { ticker: "PLTR", name: "Palantir Tech", sector: "AI & Semiconductors", price: 36.80, entry: "35.5 - 37", target: 48, stop: 33.5, riskRating: "Moderate", bullets: ["S&P inclusion catalyst driving flow", "AIP adoption rate accelerating", "Strong relative strength vs SPY"], catalyst: "Government Contract Renewal" },
-    { ticker: "AVGO", name: "Broadcom Inc", sector: "AI & Semiconductors", price: 185.20, entry: "182 - 186", target: 215, stop: 178, riskRating: "Low", bullets: ["AI networking chip supply constraint easing", "Hyperscale customer expansion", "Consistent institutional accumulation"], catalyst: "Custom AI Silicon ramp" },
-    { ticker: "TSM", name: "TSMC", sector: "AI & Semiconductors", price: 172.10, entry: "168 - 173", target: 195, stop: 162, riskRating: "Low", bullets: ["2nm node production visibility", "Apple and Nvidia capacity lock-in", "Geopolitical risk premium easing"], catalyst: "Earnings Beat Guidance" },
+    { ticker: "NVDA", name: "Nvidia Corp", sector: "AI & Semiconductors", price: 189.76, entry: "185 - 192", target: 215, stop: 182, riskRating: "High", bullets: ["B100 GPU ramp exceeding guidance", "Institutional call volume mapping at 215 peak", "Reclaiming 5-day EMA with 1.4x relative volume"], catalyst: "GTC Conference Hype" },
+    { ticker: "SMCI", name: "Super Micro", sector: "AI & Semiconductors", price: 33.58, entry: "31 - 34", target: 45, stop: 29, riskRating: "High", bullets: ["Post-split momentum play", "Finding support at psychological 30 level", "AI server backlog remains at record highs"], catalyst: "Liquidity Injection" },
+    { ticker: "AMD", name: "Advanced Micro", sector: "AI & Semiconductors", price: 205.73, entry: "202 - 208", target: 245, stop: 194, riskRating: "Moderate", bullets: ["MI300X market share expansion", "Technical breakout from 3-week base", "Bullish MACD cross on daily"], catalyst: "Enterprise AI adoption" },
+    { ticker: "PLTR", name: "Palantir Tech", sector: "AI & Semiconductors", price: 134.19, entry: "130 - 136", target: 165, stop: 122, riskRating: "Moderate", bullets: ["S&P inclusion catalyst driving flow", "AIP adoption rate accelerating", "Strong relative strength vs SPY"], catalyst: "Government Contract Renewal" },
+    { ticker: "AVGO", name: "Broadcom Inc", sector: "AI & Semiconductors", price: 332.31, entry: "325 - 335", target: 385, stop: 312, riskRating: "Low", bullets: ["AI networking chip supply constraint easing", "Hyperscale customer expansion", "Consistent institutional accumulation"], catalyst: "Custom AI Silicon ramp" },
+    { ticker: "TSM", name: "TSMC", sector: "AI & Semiconductors", price: 387.45, entry: "380 - 392", target: 450, stop: 365, riskRating: "Low", bullets: ["2nm node production visibility", "Apple and Nvidia capacity lock-in", "Geopolitical risk premium easing"], catalyst: "Earnings Beat Guidance" },
 
     // NEW SPACE
-    { ticker: "RKLB", name: "Rocket Lab USA", sector: "New Space Stocks", price: 22.40, entry: "21.5 - 22.5", target: 32, stop: 19.8, riskRating: "High", bullets: ["Neutron development milestones on track", "Increased launch frequency guidance", "Dark pool activity spike at 20.00 floor"], catalyst: "Launch Schedule Acceleration" },
-    { ticker: "LUNR", name: "Intuitive Mach", sector: "New Space Stocks", price: 8.50, entry: "8.2 - 8.7", target: 14, stop: 7.4, riskRating: "High", bullets: ["Lunar landing contract updates expected", "High short squeeze probability", "Volume expansion on consolidation break"], catalyst: "NASA Mission Milestones" },
-    { ticker: "PL", name: "Planet Labs", sector: "New Space Stocks", price: 3.20, entry: "3.1 - 3.4", target: 5.5, stop: 2.8, riskRating: "Moderate", bullets: ["Strategic shift to AI-driven data analytics", "Improving EBITDA margins", "Baseline support holding at 100-day MA"], catalyst: "Gov Satellite Data Deal" },
-    { ticker: "SPCE", name: "Virgin Galactic", sector: "New Space Stocks", price: 0.85, entry: "0.8 - 0.9", target: 1.8, stop: 0.7, riskRating: "Extreme", bullets: ["Delta class flight testing imminent", "Oversold RSI bounce potential", "Speculative capital rotation into space"], catalyst: "Fleet Expansion Update" },
-    { ticker: "SPIR", name: "Spire Global", sector: "New Space Stocks", price: 12.40, entry: "12 - 13", target: 18, stop: 10.5, riskRating: "Moderate", bullets: ["Maritime data division growth 40% YoY", "Predictive maintenance contracts increasing", "Bullish technical setup on weekly chart"], catalyst: "AI Data Partnership" },
-    { ticker: "ASTS", name: "AST SpaceMobile", sector: "New Space Stocks", price: 28.50, entry: "27 - 29", target: 42, stop: 24.5, riskRating: "High", bullets: ["Commercial satellite array deployment", "Verizon/AT&T partnership scaling", "First-mover advantage in space cellular"], catalyst: "Launch Window Approval" },
+    { ticker: "RKLB", name: "Rocket Lab USA", sector: "New Space Stocks", price: 69.97, entry: "66 - 72", target: 105, stop: 62, riskRating: "High", bullets: ["Neutron development milestones ahead of schedule", "Q4 earnings expectations surging", "Dark pool activity spike at 65.00 floor"], catalyst: "Launch Schedule Acceleration" },
+    { ticker: "LUNR", name: "Intuitive Mach", sector: "New Space Stocks", price: 17.61, entry: "16.5 - 18", target: 28, stop: 14.5, riskRating: "High", bullets: ["Lunar landing contract updates expected", "High short squeeze probability", "Volume expansion on consolidation break"], catalyst: "NASA Mission Milestones" },
+    { ticker: "PL", name: "Planet Labs", sector: "New Space Stocks", price: 24.63, entry: "23.5 - 25.5", target: 38, stop: 21.8, riskRating: "Moderate", bullets: ["Strategic shift to AI-driven data analytics", "Improving EBITDA margins", "Baseline support holding at 100-day MA"], catalyst: "Gov Satellite Data Deal" },
+    { ticker: "SPCE", name: "Virgin Galactic", sector: "New Space Stocks", price: 2.43, entry: "2.3 - 2.6", target: 4.8, stop: 1.95, riskRating: "Extreme", bullets: ["Delta class flight testing imminent", "Oversold RSI bounce potential", "Speculative capital rotation into space"], catalyst: "Fleet Expansion Update" },
+    { ticker: "SPIR", name: "Spire Global", sector: "New Space Stocks", price: 9.04, entry: "8.5 - 9.5", target: 14, stop: 7.8, riskRating: "Moderate", bullets: ["Maritime data division growth 40% YoY", "Predictive maintenance contracts increasing", "Bullish technical setup on weekly chart"], catalyst: "AI Data Partnership" },
+    { ticker: "ASTS", name: "AST SpaceMobile", sector: "New Space Stocks", price: 85.82, entry: "82 - 88", target: 135, stop: 74, riskRating: "High", bullets: ["Commercial satellite array deployment", "Verizon/AT&T partnership scaling", "First-mover advantage in space cellular"], catalyst: "Launch Window Approval" },
 
     // MINING
-    { ticker: "ALB", name: "Albemarle Corp", sector: "Mining Stocks", price: 92.40, entry: "90 - 93", target: 120, stop: 84, riskRating: "Moderate", bullets: ["Lithium price bottoming formation", "Direct lithium extraction pilot success", "Institutional 'smart money' accumulation"], catalyst: "EV Supply Chain Recovery" },
-    { ticker: "LAC", name: "Lithium Americas", sector: "Mining Stocks", price: 4.80, entry: "4.6 - 4.9", target: 8.5, stop: 4.1, riskRating: "High", bullets: ["Thacker Pass development financing locked", "Strategic partnership rumors", "Technical cup-and-handle pattern weekly"], catalyst: "DOE Loan Disbursement" },
-    { ticker: "GOLD", name: "Barrick Gold", sector: "Mining Stocks", price: 18.50, entry: "18.2 - 18.7", target: 24, stop: 17.4, riskRating: "Low", bullets: ["Gold spot price breakout to all-time highs", "Operating cost reduction beating guidance", "Defensive capital flow transition"], catalyst: "Central Bank Accumulation" },
-    { ticker: "CCJ", name: "Cameco Corp", sector: "Mining Stocks", price: 54.20, entry: "52 - 55", target: 72, stop: 49, riskRating: "Moderate", bullets: ["Uranium supply deficit widening", "New nuclear power plant approvals global", "Long-term contract pricing rising"], catalyst: "Nuclear Energy Pivot" },
-    { ticker: "MP", name: "MP Materials", sector: "Mining Stocks", price: 16.80, entry: "16 - 17.5", target: 26, stop: 14.8, riskRating: "High", bullets: ["Rare earth neodymium price stabilized", "Processing facility ramp at Stage 2", "Strategic value for domestic supply"], catalyst: "Trade Restriction News" },
+    { ticker: "ALB", name: "Albemarle Corp", sector: "Mining Stocks", price: 187.15, entry: "182 - 190", target: 245, stop: 172, riskRating: "Moderate", bullets: ["Lithium price bottoming formation", "Direct lithium extraction pilot success", "Institutional 'smart money' accumulation"], catalyst: "EV Supply Chain Recovery" },
+    { ticker: "LAC", name: "Lithium Americas", sector: "Mining Stocks", price: 5.04, entry: "4.8 - 5.2", target: 9.5, stop: 4.3, riskRating: "High", bullets: ["Thacker Pass development financing locked", "Strategic partnership rumors", "Technical cup-and-handle pattern weekly"], catalyst: "DOE Loan Disbursement" },
+    { ticker: "GOLD", name: "Barrick Gold", sector: "Mining Stocks", price: 49.90, entry: "48 - 52", target: 75, stop: 44, riskRating: "Low", bullets: ["Gold spot price breakout to all-time highs above $5k", "Operating cost reduction beating guidance", "Defensive capital flow transition"], catalyst: "Central Bank Accumulation" },
+    { ticker: "CCJ", name: "Cameco Corp", sector: "Mining Stocks", price: 116.51, entry: "112 - 120", target: 165, stop: 104, riskRating: "Moderate", bullets: ["Uranium supply deficit widening", "New nuclear power plant approvals global", "Long-term contract pricing rising"], catalyst: "Nuclear Energy Pivot" },
+    { ticker: "MP", name: "MP Materials", sector: "Mining Stocks", price: 58.66, entry: "55 - 62", target: 88, stop: 52, riskRating: "High", bullets: ["Rare earth neodymium price stabilized", "Processing facility ramp at Stage 2", "Strategic value for domestic supply"], catalyst: "Trade Restriction News" },
 
     // TECHNOLOGY
-    { ticker: "MSFT", name: "Microsoft", sector: "Technology", price: 412.50, entry: "408 - 415", target: 460, stop: 395, riskRating: "Low", bullets: ["Azure AI growth 30%+", "Copilot monetization scaling", "Massive institutional core hold"], catalyst: "Enterprise AI Expansion" },
-    { ticker: "META", name: "Meta Platforms", sector: "Technology", price: 504.20, entry: "495 - 508", target: 575, stop: 480, riskRating: "Moderate", bullets: ["Ad revenue re-acceleration via AI", "Llama 3 open source leadership", "Strong free cash flow generation"], catalyst: "Ad Tech Breakthrough" },
-    { ticker: "GOOGL", name: "Alphabet Inc", sector: "Technology", price: 168.40, entry: "164 - 170", target: 195, stop: 158, riskRating: "Low", bullets: ["Gemini integration across Google Workspace", "Search dominance remains unchallenged", "Undervalued vs Big Tech peers"], catalyst: "Cloud Profitability" },
+    { ticker: "MSFT", name: "Microsoft", sector: "Technology", price: 400.66, entry: "395 - 405", target: 460, stop: 382, riskRating: "Low", bullets: ["Azure AI growth 30%+", "Copilot monetization scaling", "Massive institutional core hold"], catalyst: "Enterprise AI Expansion" },
+    { ticker: "META", name: "Meta Platforms", sector: "Technology", price: 653.69, entry: "640 - 665", target: 780, stop: 615, riskRating: "Moderate", bullets: ["Ad revenue re-acceleration via AI", "Llama 3 open source leadership", "Strong free cash flow generation"], catalyst: "Ad Tech Breakthrough" },
+    { ticker: "GOOGL", name: "Alphabet Inc", sector: "Technology", price: 313.03, entry: "305 - 320", target: 385, stop: 292, riskRating: "Low", bullets: ["Gemini integration across Google Workspace", "Search dominance remains unchallenged", "Undervalued vs Big Tech peers"], catalyst: "Cloud Profitability" },
 
     // DEFENSE
-    { ticker: "LMT", name: "Lockheed Martin", sector: "Defense", price: 462.80, entry: "458 - 465", target: 520, stop: 442, riskRating: "Low", bullets: ["F-35 deliveries back on track", "Record backlog of international orders", "Safe-haven capital flows during unrest"], catalyst: "Geopolitical Tensions" },
-    { ticker: "RTX", name: "Raytheon Tech", sector: "Defense", price: 102.10, entry: "100 - 103", target: 125, stop: 96, riskRating: "Low", bullets: ["Pratt & Whitney engine fixes complete", "Massive missile defense contract tailwinds", "High barrier to entry in defense tech"], catalyst: "Defense Budget Expansion" },
-    { ticker: "HWM", name: "Howmet Aero", sector: "Defense", price: 82.40, entry: "80 - 83", target: 105, stop: 76, riskRating: "Moderate", bullets: ["Aerospace supply chain leader", "Propulsion component demand surge", "Perfect technical breakout setup"], catalyst: "Air Travel Recovery" },
-    { ticker: "CAT", name: "Caterpillar Inc", sector: "Industrials", price: 342.10, entry: "338 - 345", target: 385, stop: 324, riskRating: "Low", bullets: ["Mining equipment demand structural shift", "Infrastructure project backlog record high", "Margin expansion in energy sector"], catalyst: "Global Infrastructure Cycle" },
+    { ticker: "LMT", name: "Lockheed Martin", sector: "Defense", price: 647.50, entry: "635 - 655", target: 760, stop: 610, riskRating: "Low", bullets: ["F-35 deliveries back on track", "Record backlog of international orders", "Safe-haven capital flows during unrest"], catalyst: "Geopolitical Tensions" },
+    { ticker: "RTX", name: "Raytheon Tech", sector: "Defense", price: 196.13, entry: "190 - 202", target: 255, stop: 182, riskRating: "Low", bullets: ["Pratt & Whitney engine fixes complete", "Massive missile defense contract tailwinds", "High barrier to entry in defense tech"], catalyst: "Defense Budget Expansion" },
+    { ticker: "HWM", name: "Howmet Aero", sector: "Defense", price: 259.54, entry: "252 - 265", target: 320, stop: 242, riskRating: "Moderate", bullets: ["Aerospace supply chain leader", "Propulsion component demand surge", "Perfect technical breakout setup"], catalyst: "Air Travel Recovery" },
+    { ticker: "CAT", name: "Caterpillar Inc", sector: "Industrials", price: 743.00, entry: "725 - 755", target: 880, stop: 695, riskRating: "Low", bullets: ["Mining equipment demand structural shift", "Infrastructure project backlog record high", "Margin expansion in energy sector"], catalyst: "Global Infrastructure Cycle" },
 
     // SPECIFIC PICKS (SMR, OKLO, ARKX)
-    { ticker: "SMR", name: "NuScale Power", sector: "Energy", price: 24.50, entry: "23.5 - 25", target: 35, stop: 21.2, riskRating: "High", bullets: ["Leader in Small Modular Reactor (SMR) tech", "Bipartisan support for nuclear energy expansion", "Strategic pivot to data center power solutions"], catalyst: "Government Nuclear Grants" },
-    { ticker: "OKLO", name: "Oklo Inc", sector: "Energy", price: 18.20, entry: "17.5 - 19", target: 28, stop: 15.8, riskRating: "Very High", bullets: ["Sam Altman backed nuclear fission play", "Advanced micro-reactor commercialization", "Massive social sentiment engagement"], catalyst: "SMR Commercial License" },
-    { ticker: "ARKX", name: "ARK Space ETF", sector: "New Space Stocks", price: 15.80, entry: "15.4 - 16", target: 22, stop: 14.5, riskRating: "Moderate", bullets: ["Diversified exposure to orbital manufacturing", "Captures global military space spend", "Technical breakout on weekly accumulation"], catalyst: "Space Economy Acceleration" }
+    { ticker: "SMR", name: "NuScale Power", sector: "Energy", price: 13.40, entry: "12.5 - 14", target: 22, stop: 11.2, riskRating: "High", bullets: ["Leader in Small Modular Reactor (SMR) tech", "Bipartisan support for nuclear energy expansion", "Post-correction accumulation zone"], catalyst: "Government Nuclear Grants" },
+    { ticker: "OKLO", name: "Oklo Inc", sector: "Energy", price: 68.35, entry: "65 - 72", target: 115, stop: 58, riskRating: "Very High", bullets: ["Sam Altman backed nuclear fission play", "Advanced micro-reactor commercialization", "Massive social sentiment engagement"], catalyst: "SMR Commercial License" },
+    { ticker: "ARKX", name: "ARK Space ETF", sector: "New Space Stocks", price: 31.91, entry: "30 - 33", target: 48, stop: 28, riskRating: "Moderate", bullets: ["Diversified exposure to orbital manufacturing", "Captures global military space spend", "Technical breakout on weekly accumulation"], catalyst: "Space Economy Acceleration" }
 ];
 
 let activeFilterValue = 'all';
@@ -49,6 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initLoader();
     updateTime();
     bindEvents();
+
+    // Automatically trigger real-time sync if key is present
+    if (FINNHUB_KEY) {
+        fetchLatestPrices();
+    }
 
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js?v=' + API_VERSION);
@@ -214,6 +220,29 @@ function refreshStocks() {
             if (icon) icon.classList.remove('animate-spin');
         }
     }, 400);
+}
+
+async function fetchLatestPrices() {
+    if (!FINNHUB_KEY) return;
+
+    const timestamp = document.getElementById('timestamp');
+    if (timestamp) timestamp.textContent = "Syncing Real-Time Alpha...";
+
+    const promises = STOCK_DATABASE.map(async (stock) => {
+        try {
+            const response = await fetch(`https://finnhub.io/api/v1/quote?symbol=${stock.ticker}&token=${FINNHUB_KEY}`);
+            const data = await response.json();
+            if (data.c && data.c > 0) {
+                stock.price = data.c;
+            }
+        } catch (e) {
+            console.error(`Sync failed for ${stock.ticker}`);
+        }
+    });
+
+    await Promise.all(promises);
+    refreshStocks();
+    console.log("Real-time Intelligence Sync Complete.");
 }
 
 function renderCards(stocks) {

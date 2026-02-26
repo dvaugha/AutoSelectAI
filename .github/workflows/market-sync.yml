@@ -1,0 +1,92 @@
+name: Alpha-X Market Intelligence Sync
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Every hour
+  workflow_dispatch: # Manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  sync-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Sync Market Prices
+        env:
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+        run: |
+          cat << 'EOF' > sync.js
+          const fs = require('fs');
+          const https = require('https');
+
+          const apiKey = process.env.FINNHUB_API_KEY;
+          if (!apiKey) {
+            console.log("No API key found. Skipping sync.");
+            process.exit(0);
+          }
+
+          async function getPrice(ticker) {
+            return new Promise((resolve) => {
+              https.get(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => resolve(JSON.parse(data).c));
+              }).on('error', () => resolve(null));
+            });
+          }
+
+          async function run() {
+            const filePath = './app.js';
+            let content = fs.readFileSync(filePath, 'utf8');
+            
+            // Extract DATABASE array
+            const dbRegex = /const STOCK_DATABASE = (\[[\s\S]*?\]);/;
+            const match = content.match(dbRegex);
+            if (!match) return;
+
+            let db = eval(match[1]);
+            let updatedCount = 0;
+
+            for (let stock of db) {
+              const freshPrice = await getPrice(stock.ticker);
+              if (freshPrice && freshPrice > 0) {
+                console.log(`Syncing ${stock.ticker}: $${stock.price} -> $${freshPrice}`);
+                stock.price = freshPrice;
+                // Auto-adjust entry/target based on volatility spreads (simplified logic)
+                const spread = (stock.target - stock.price) / stock.price;
+                stock.entry = `${(freshPrice * 0.98).toFixed(2)} - ${(freshPrice * 1.02).toFixed(2)}`;
+                updatedCount++;
+              }
+              // Throttle for API limits
+              await new Promise(r => setTimeout(r, 200));
+            }
+
+            if (updatedCount > 0) {
+              const newVersion = parseInt(content.match(/const API_VERSION = '(\d+)';/)[1]) + 1;
+              content = content.replace(/const API_VERSION = '\d+';/, `const API_VERSION = '${newVersion}';`);
+              content = content.replace(dbRegex, `const STOCK_DATABASE = ${JSON.stringify(db, null, 4)};`);
+              fs.writeFileSync(filePath, content);
+              console.log(`Updated ${updatedCount} tickers. Bumped to v${newVersion}`);
+            }
+          }
+
+          run();
+          EOF
+          node sync.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Alpha-X Intelligence Bot"
+          git config --global user.email "bot@alpha-x.ai"
+          git add app.js
+          git commit -m "Automated Market Intelligence Sync [Bot]" || echo "No changes to commit"
+          git push
