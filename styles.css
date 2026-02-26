@@ -298,3 +298,51 @@ header {
 .border-accent {
     border-color: var(--accent);
 }
+
+/* New Features: Options Flow & Calculator */
+.flow-badge {
+    background: rgba(0, 255, 170, 0.1);
+    border: 1px solid rgba(0, 255, 170, 0.2);
+    color: var(--accent);
+    font-size: 7px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.calc-input {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 6px 10px;
+    width: 100%;
+}
+
+.calc-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(0, 255, 170, 0.05);
+}
+
+.calc-label {
+    font-size: 7px;
+    font-weight: 800;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.allocation-pill {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 10px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
