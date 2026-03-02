@@ -44,6 +44,7 @@ const STOCK_DATABASE = [
 ];
 
 let activeFilterValue = 'all';
+let currentSelection = []; // Track stocks currently on screen
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Alpha-X v4.0.4 Initializing...");
@@ -135,34 +136,33 @@ function bindEvents() {
         updateTickerBtn.addEventListener('click', async () => {
             const icon = updateTickerBtn.querySelector('i');
             const originalText = "Update";
-            const btnText = updateTickerBtn.childNodes[updateTickerBtn.childNodes.length - 1]; // Assume text is last node
+            const btnText = updateTickerBtn.childNodes[updateTickerBtn.childNodes.length - 1];
 
             if (icon) icon.classList.add('animate-spin');
             updateTickerBtn.style.opacity = '0.7';
             updateTickerBtn.style.pointerEvents = 'none';
             if (btnText) btnText.textContent = " Syncing...";
 
-            // Wait 3.5 seconds as requested for authentic feel/screen update
+            // Authentic delay
             await new Promise(resolve => setTimeout(resolve, 3500));
 
-            if (FINNHUB_KEY) {
-                // Real-time update if key is present
-                await fetchLatestPrices();
-            } else {
-                // Simulated price movement for demo/offline
-                STOCK_DATABASE.forEach(stock => {
-                    const change = (Math.random() * 2 - 1) * (stock.price * 0.005);
-                    stock.price += change;
-                });
-                refreshStocks();
-            }
+            await syncAllPrices();
 
-            // Sync completion feedback
+            // Refresh the SAME stocks with NEW prices (no reshuffle)
+            refreshStocks(false);
+
             initUpdateTimestamp();
             if (icon) icon.classList.remove('animate-spin');
             if (btnText) btnText.textContent = " " + originalText;
             updateTickerBtn.style.opacity = '1';
             updateTickerBtn.style.pointerEvents = 'auto';
+        });
+    }
+
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            // This button RESHUFFLES picks
+            refreshStocks(true);
         });
     }
 
@@ -182,7 +182,21 @@ function openTickerModal(ticker) {
         const upside = (((stock.target - stock.price) / stock.price) * 100).toFixed(1);
         const riskPct = (((stock.price - stock.stop) / stock.price) * 100).toFixed(1);
         const rr = (upside / riskPct).toFixed(2);
+
+        // Show the updated price in the modal
         openModal(stock, upside, riskPct, rr);
+    }
+}
+
+async function syncAllPrices() {
+    if (FINNHUB_KEY) {
+        await fetchLatestPrices();
+    } else {
+        // Simulated update
+        STOCK_DATABASE.forEach(stock => {
+            const change = (Math.random() * 2 - 1) * (stock.price * 0.005);
+            stock.price += change;
+        });
     }
 }
 
@@ -238,30 +252,36 @@ function updateFilterLabel(val) {
     }
 }
 
-function refreshStocks() {
+function refreshStocks(forceReshuffle = true) {
     const stockFeed = document.getElementById('stock-feed');
     const timestamp = document.getElementById('timestamp');
     const refreshBtn = document.getElementById('refresh-picks');
+
     if (refreshBtn) {
         const icon = refreshBtn.querySelector('svg, .lucide');
         if (icon) icon.classList.add('animate-spin');
     }
+
     if (timestamp) {
         const now = new Date();
         timestamp.textContent = `Picks Synced: ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     }
-    let pool = STOCK_DATABASE;
-    if (activeFilterValue !== 'all') {
-        pool = STOCK_DATABASE.filter(s => s.sector === activeFilterValue);
+
+    if (forceReshuffle || currentSelection.length === 0) {
+        let pool = STOCK_DATABASE;
+        if (activeFilterValue !== 'all') {
+            pool = STOCK_DATABASE.filter(s => s.sector === activeFilterValue);
+        }
+        if (pool.length < 5) {
+            const others = STOCK_DATABASE.filter(s => s.sector !== activeFilterValue);
+            const extra = others.sort(() => 0.5 - Math.random()).slice(0, 5 - pool.length);
+            pool = [...pool, ...extra];
+        }
+        currentSelection = pool.sort(() => 0.5 - Math.random()).slice(0, 5);
     }
-    if (pool.length < 5) {
-        const others = STOCK_DATABASE.filter(s => s.sector !== activeFilterValue);
-        const extra = others.sort(() => 0.5 - Math.random()).slice(0, 5 - pool.length);
-        pool = [...pool, ...extra];
-    }
-    const selected = pool.sort(() => 0.5 - Math.random()).slice(0, 5);
+
     setTimeout(() => {
-        renderCards(selected);
+        renderCards(currentSelection);
         if (refreshBtn) {
             const icon = refreshBtn.querySelector('svg, .lucide');
             if (icon) icon.classList.remove('animate-spin');
@@ -365,6 +385,7 @@ function openModal(stock, upside, riskPct, rr) {
                     <div class="text-right">
                         <div class="text-[8px] font-bold text-zinc-500 mb-1">SPOT PRICE</div>
                         <div class="text-xl font-mono font-bold text-accent">$${stock.price.toFixed(2)}</div>
+                        <div class="text-[7px] text-zinc-600 font-bold uppercase mt-1">Synced @ ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                     </div>
                 </div>
             </div>
