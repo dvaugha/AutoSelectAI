@@ -4,10 +4,10 @@ const FINNHUB_KEY = localStorage.getItem('ALPHA_X_KEY') || '';
 
 const STOCK_DATABASE = [
     // AI & SEMIS
-    { ticker: "NVDA", name: "Nvidia Corp", sector: "AI & Semiconductors", price: 189.76, entry: "185 - 192", target: 215, stop: 182, riskRating: "High", bullets: ["B100 GPU ramp exceeding guidance", "Institutional call volume mapping at 215 peak", "Reclaiming 5-day EMA with 1.4x relative volume"], catalyst: "GTC Conference Hype", optionsFlow: "Aggressive $220 Calls Sweep", flowSnippet: "Bullish Delta" },
-    { ticker: "SMCI", name: "Super Micro", sector: "AI & Semiconductors", price: 33.58, entry: "31 - 34", target: 45, stop: 29, riskRating: "High", bullets: ["Post-split momentum play", "Finding support at psychological 30 level", "AI server backlog remains at record highs"], catalyst: "Liquidity Injection", optionsFlow: "High-volume $35 Put Selling", flowSnippet: "Support Build" },
-    { ticker: "AMD", name: "Advanced Micro", sector: "AI & Semiconductors", price: 205.73, entry: "202 - 208", target: 245, stop: 194, riskRating: "Moderate", bullets: ["MI300X market share expansion", "Technical breakout from 3-week base", "Bullish MACD cross on daily"], catalyst: "Enterprise AI adoption", optionsFlow: "Institutional Accumulation via LEAPS", flowSnippet: "Long Flow" },
-    { ticker: "PLTR", name: "Palantir Tech", sector: "AI & Semiconductors", price: 134.19, entry: "130 - 136", target: 165, stop: 122, riskRating: "Moderate", bullets: ["S&P inclusion catalyst driving flow", "AIP adoption rate accelerating", "Strong relative strength vs SPY"], catalyst: "Government Contract Renewal", optionsFlow: "$140 Call Buying Surge", flowSnippet: "Whale Flow" },
+    { ticker: "NVDA", name: "Nvidia Corp", sector: "AI & Semiconductors", price: 178.86, entry: "175 - 182", target: 215, stop: 172, riskRating: "High", bullets: ["B100 GPU ramp exceeding guidance", "Institutional call volume mapping at 215 peak", "Reclaiming 5-day EMA with 1.4x relative volume"], catalyst: "GTC Conference Hype", optionsFlow: "Aggressive $220 Calls Sweep", flowSnippet: "Bullish Delta" },
+    { ticker: "SMCI", name: "Super Micro", sector: "AI & Semiconductors", price: 32.39, entry: "30 - 33", target: 45, stop: 28.5, riskRating: "High", bullets: ["Post-split momentum play", "Finding support at psychological 30 level", "AI server backlog remains at record highs"], catalyst: "Liquidity Injection", optionsFlow: "High-volume $35 Put Selling", flowSnippet: "Support Build" },
+    { ticker: "AMD", name: "Advanced Micro", sector: "AI & Semiconductors", price: 193.26, entry: "190 - 195", target: 245, stop: 184, riskRating: "Moderate", bullets: ["MI300X market share expansion", "Technical breakout from 3-week base", "Bullish MACD cross on daily"], catalyst: "Enterprise AI adoption", optionsFlow: "Institutional Accumulation via LEAPS", flowSnippet: "Long Flow" },
+    { ticker: "PLTR", name: "Palantir Tech", sector: "AI & Semiconductors", price: 143.30, entry: "140 - 145", target: 175, stop: 132, riskRating: "Moderate", bullets: ["S&P inclusion catalyst driving flow", "AIP adoption rate accelerating", "Strong relative strength vs SPY"], catalyst: "Government Contract Renewal", optionsFlow: "$160 Call Buying Surge", flowSnippet: "Whale Flow" },
     { ticker: "AVGO", name: "Broadcom Inc", sector: "AI & Semiconductors", price: 332.31, entry: "325 - 335", target: 385, stop: 312, riskRating: "Low", bullets: ["AI networking chip supply constraint easing", "Hyperscale customer expansion", "Consistent institutional accumulation"], catalyst: "Custom AI Silicon ramp", optionsFlow: "Dark Pool Block Cross @ $330", flowSnippet: "Institutional" },
     { ticker: "TSM", name: "TSMC", sector: "AI & Semiconductors", price: 387.45, entry: "380 - 392", target: 450, stop: 365, riskRating: "Low", bullets: ["2nm node production visibility", "Apple and Nvidia capacity lock-in", "Geopolitical risk premium easing"], catalyst: "Earnings Beat Guidance", optionsFlow: "Bullish Reversal Flow Detected", flowSnippet: "Trend Shift" },
 
@@ -27,12 +27,12 @@ const STOCK_DATABASE = [
     { ticker: "MP", name: "MP Materials", sector: "Mining Stocks", price: 58.66, entry: "55 - 62", target: 88, stop: 52, riskRating: "High", bullets: ["Rare earth neodymium price stabilized", "Processing facility ramp at Stage 2", "Strategic value for domestic supply"], catalyst: "Trade Restriction News", optionsFlow: "Aggressive Block Trades Observed", flowSnippet: "Block Flow" },
 
     // TECHNOLOGY
-    { ticker: "MSFT", name: "Microsoft", sector: "Technology", price: 400.66, entry: "395 - 405", target: 460, stop: 382, riskRating: "Low", bullets: ["Azure AI growth 30%+", "Copilot monetization scaling", "Massive institutional core hold"], catalyst: "Enterprise AI Expansion", optionsFlow: "Steady Accumulation via Diagonals", flowSnippet: "Core Build" },
-    { ticker: "META", name: "Meta Platforms", sector: "Technology", price: 653.69, entry: "640 - 665", target: 780, stop: 615, riskRating: "Moderate", bullets: ["Ad revenue re-acceleration via AI", "Llama 3 open source leadership", "Strong free cash flow generation"], catalyst: "Ad Tech Breakthrough", optionsFlow: "Bullish Sentiment Intensity High", flowSnippet: "Sentiment+" },
+    { ticker: "MSFT", name: "Microsoft", sector: "Technology", price: 388.75, entry: "385 - 395", target: 460, stop: 372, riskRating: "Low", bullets: ["Azure AI growth 30%+", "Copilot monetization scaling", "Massive institutional core hold"], catalyst: "Enterprise AI Expansion", optionsFlow: "Steady Accumulation via Diagonals", flowSnippet: "Core Build" },
+    { ticker: "META", name: "Meta Platforms", sector: "Technology", price: 645.21, entry: "635 - 655", target: 780, stop: 610, riskRating: "Moderate", bullets: ["Ad revenue re-acceleration via AI", "Llama 3 open source leadership", "Strong free cash flow generation"], catalyst: "Ad Tech Breakthrough", optionsFlow: "Bullish Sentiment Intensity High", flowSnippet: "Sentiment+" },
     { ticker: "GOOGL", name: "Alphabet Inc", sector: "Technology", price: 305.23, entry: "305 - 320", target: 385, stop: 292, riskRating: "Low", bullets: ["Gemini integration across Google Workspace", "Search dominance remains unchallenged", "Undervalued vs Big Tech peers"], catalyst: "Cloud Profitability", optionsFlow: "Low IV Opportunity Buying", flowSnippet: "IV Crush Play" },
 
     // DEFENSE
-    { ticker: "LMT", name: "Lockheed Martin", sector: "Defense", price: 647.50, entry: "635 - 655", target: 760, stop: 610, riskRating: "Low", bullets: ["F-35 deliveries back on track", "Record backlog of international orders", "Safe-haven capital flows during unrest"], catalyst: "Geopolitical Tensions", optionsFlow: "Safe-Haven Positioning", flowSnippet: "Defensive" },
+    { ticker: "LMT", name: "Lockheed Martin", sector: "Defense", price: 672.00, entry: "665 - 675", target: 780, stop: 645, riskRating: "Low", bullets: ["F-35 deliveries back on track", "Record backlog of international orders", "Safe-haven capital flows during unrest"], catalyst: "Geopolitical Tensions", optionsFlow: "Safe-Haven Positioning", flowSnippet: "Defensive" },
     { ticker: "RTX", name: "Raytheon Tech", sector: "Defense", price: 196.13, entry: "190 - 202", target: 255, stop: 182, riskRating: "Low", bullets: ["Pratt & Whitney engine fixes complete", "Massive missile defense contract tailwinds", "High barrier to entry in defense tech"], catalyst: "Defense Budget Expansion", optionsFlow: "Institutional Sided-Flow detected", flowSnippet: "Direct Flow" },
     { ticker: "HWM", name: "Howmet Aero", sector: "Defense", price: 259.54, entry: "252 - 265", target: 320, stop: 242, riskRating: "Moderate", bullets: ["Aerospace supply chain leader", "Propulsion component demand surge", "Perfect technical breakout setup"], catalyst: "Air Travel Recovery", optionsFlow: "Volatility Expansion Expected", flowSnippet: "Vol++" },
     { ticker: "CAT", name: "Caterpillar Inc", sector: "Industrials", price: 743.00, entry: "725 - 755", target: 880, stop: 695, riskRating: "Low", bullets: ["Mining equipment demand structural shift", "Infrastructure project backlog record high", "Margin expansion in energy sector"], catalyst: "Global Infrastructure Cycle", optionsFlow: "Broad Based Institutional Accumulation", flowSnippet: "Heavy Flow" },
@@ -134,7 +134,16 @@ function bindEvents() {
     if (updateTickerBtn) {
         updateTickerBtn.addEventListener('click', async () => {
             const icon = updateTickerBtn.querySelector('i');
+            const originalText = "Update";
+            const btnText = updateTickerBtn.childNodes[updateTickerBtn.childNodes.length - 1]; // Assume text is last node
+
             if (icon) icon.classList.add('animate-spin');
+            updateTickerBtn.style.opacity = '0.7';
+            updateTickerBtn.style.pointerEvents = 'none';
+            if (btnText) btnText.textContent = " Syncing...";
+
+            // Wait 3.5 seconds as requested for authentic feel/screen update
+            await new Promise(resolve => setTimeout(resolve, 3500));
 
             if (FINNHUB_KEY) {
                 // Real-time update if key is present
@@ -145,16 +154,15 @@ function bindEvents() {
                     const change = (Math.random() * 2 - 1) * (stock.price * 0.005);
                     stock.price += change;
                 });
-                setTimeout(() => {
-                    refreshStocks();
-                }, 800);
+                refreshStocks();
             }
 
             // Sync completion feedback
-            setTimeout(() => {
-                initUpdateTimestamp();
-                if (icon) icon.classList.remove('animate-spin');
-            }, 1000);
+            initUpdateTimestamp();
+            if (icon) icon.classList.remove('animate-spin');
+            if (btnText) btnText.textContent = " " + originalText;
+            updateTickerBtn.style.opacity = '1';
+            updateTickerBtn.style.pointerEvents = 'auto';
         });
     }
 
