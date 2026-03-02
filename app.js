@@ -38,9 +38,9 @@ const STOCK_DATABASE = [
     { ticker: "CAT", name: "Caterpillar Inc", sector: "Industrials", price: 743.00, entry: "725 - 755", target: 880, stop: 695, riskRating: "Low", bullets: ["Mining equipment demand structural shift", "Infrastructure project backlog record high", "Margin expansion in energy sector"], catalyst: "Global Infrastructure Cycle", optionsFlow: "Broad Based Institutional Accumulation", flowSnippet: "Heavy Flow" },
 
     // SPECIFIC PICKS (SMR, OKLO, ARKX)
-    { ticker: "SMR", name: "NuScale Power", sector: "Energy", price: 13.40, entry: "12.5 - 14", target: 22, stop: 11.2, riskRating: "High", bullets: ["Leader in Small Modular Reactor (SMR) tech", "Bipartisan support for nuclear energy expansion", "Post-correction accumulation zone"], catalyst: "Government Nuclear Grants", optionsFlow: "Heavy Volume in $15 Calls", flowSnippet: "Gamma Build" },
-    { ticker: "OKLO", name: "Oklo Inc", sector: "Energy", price: 68.35, entry: "65 - 72", target: 115, stop: 58, riskRating: "Very High", bullets: ["Sam Altman backed nuclear fission play", "Advanced micro-reactor commercialization", "Massive social sentiment engagement"], catalyst: "SMR Commercial License", optionsFlow: "Institutional Sweep of $80 Striks", flowSnippet: "Strike Sweep" },
-    { ticker: "ARKX", name: "ARK Space ETF", sector: "New Space Stocks", price: 31.91, entry: "30 - 33", target: 48, stop: 28, riskRating: "Moderate", bullets: ["Diversified exposure to orbital manufacturing", "Captures global military space spend", "Technical breakout on weekly accumulation"], catalyst: "Space Economy Acceleration", optionsFlow: "ETF Basket Accumulation detected", flowSnippet: "Basket flow" }
+    { ticker: "SMR", name: "NuScale Power", sector: "Energy", price: 13.13, entry: "12.5 - 14", target: 22, stop: 11.2, riskRating: "High", bullets: ["Leader in Small Modular Reactor (SMR) tech", "Bipartisan support for nuclear energy expansion", "Post-correction accumulation zone"], catalyst: "Government Nuclear Grants", optionsFlow: "Heavy Volume in $15 Calls", flowSnippet: "Gamma Build" },
+    { ticker: "OKLO", name: "Oklo Inc", sector: "Energy", price: 62.34, entry: "60 - 65", target: 115, stop: 55, riskRating: "Very High", bullets: ["Sam Altman backed nuclear fission play", "Advanced micro-reactor commercialization", "Massive social sentiment engagement"], catalyst: "SMR Commercial License", optionsFlow: "Institutional Sweep of $80 Striks", flowSnippet: "Strike Sweep" },
+    { ticker: "ARKX", name: "ARK Space ETF", sector: "New Space Stocks", price: 31.99, entry: "30 - 33", target: 48, stop: 28, riskRating: "Moderate", bullets: ["Diversified exposure to orbital manufacturing", "Captures global military space spend", "Technical breakout on weekly accumulation"], catalyst: "Space Economy Acceleration", optionsFlow: "ETF Basket Accumulation detected", flowSnippet: "Basket flow" }
 ];
 
 let activeFilterValue = 'all';
@@ -61,6 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js?v=' + API_VERSION);
     }
+
+    // Auto-sync every 60 seconds for "at the moment" prices
+    setInterval(async () => {
+        await syncAllPrices();
+        refreshStocks(false);
+        updatePremiumTickerLabels();
+        initUpdateTimestamp();
+    }, 60000);
 });
 
 function initLoader() {
@@ -75,6 +83,7 @@ function initLoader() {
             if (app) app.classList.remove('hidden');
             if (app) app.classList.add('fade-in');
             refreshStocks();
+            updatePremiumTickerLabels();
         }, 500);
     }, 3200);
 }
@@ -150,6 +159,7 @@ function bindEvents() {
 
             // Refresh the SAME stocks with NEW prices (no reshuffle)
             refreshStocks(false);
+            updatePremiumTickerLabels();
 
             initUpdateTimestamp();
             if (icon) icon.classList.remove('animate-spin');
@@ -229,6 +239,16 @@ function openStrategyModal() {
     `;
     overlay.classList.add('active');
     if (window.lucide) window.lucide.createIcons();
+}
+
+function updatePremiumTickerLabels() {
+    ['smr', 'oklo', 'arkx'].forEach(t => {
+        const btn = document.getElementById(`btn-${t}`);
+        const stock = STOCK_DATABASE.find(s => s.ticker === t.toUpperCase());
+        if (btn && stock) {
+            btn.innerHTML = `<span class="opacity-50 font-black mr-1">${stock.ticker}</span> $${stock.price.toFixed(2)}`;
+        }
+    });
 }
 
 function handleFilterClick(sectorName, btnId) {
