@@ -262,6 +262,19 @@ function handleFilterClick(sectorName, btnId) {
         else select.value = 'all';
     }
     updateFilterLabel(sectorName);
+
+    // Briefly show sync status when filtering for premium feel
+    const refreshBtn = document.getElementById('refresh-picks');
+    if (refreshBtn) {
+        const originalContent = refreshBtn.innerHTML;
+        refreshBtn.innerHTML = `<i data-lucide="refresh-cw" class="w-3 h-3 animate-spin"></i> Syncing...`;
+        if (window.lucide) window.lucide.createIcons();
+        setTimeout(() => {
+            refreshBtn.innerHTML = originalContent;
+            if (window.lucide) window.lucide.createIcons();
+        }, 1200);
+    }
+
     refreshStocks();
 }
 
@@ -276,6 +289,10 @@ function refreshStocks(forceReshuffle = true) {
     const stockFeed = document.getElementById('stock-feed');
     const timestamp = document.getElementById('timestamp');
     const refreshBtn = document.getElementById('refresh-picks');
+
+    // Always sync labels and timestamps during any refresh
+    updatePremiumTickerLabels();
+    initUpdateTimestamp();
 
     if (refreshBtn) {
         const icon = refreshBtn.querySelector('svg, .lucide');
