@@ -29,7 +29,7 @@ const STOCK_DATABASE = [
     // TECHNOLOGY
     { ticker: "MSFT", name: "Microsoft", sector: "Technology", price: 400.66, entry: "395 - 405", target: 460, stop: 382, riskRating: "Low", bullets: ["Azure AI growth 30%+", "Copilot monetization scaling", "Massive institutional core hold"], catalyst: "Enterprise AI Expansion", optionsFlow: "Steady Accumulation via Diagonals", flowSnippet: "Core Build" },
     { ticker: "META", name: "Meta Platforms", sector: "Technology", price: 653.69, entry: "640 - 665", target: 780, stop: 615, riskRating: "Moderate", bullets: ["Ad revenue re-acceleration via AI", "Llama 3 open source leadership", "Strong free cash flow generation"], catalyst: "Ad Tech Breakthrough", optionsFlow: "Bullish Sentiment Intensity High", flowSnippet: "Sentiment+" },
-    { ticker: "GOOGL", name: "Alphabet Inc", sector: "Technology", price: 313.03, entry: "305 - 320", target: 385, stop: 292, riskRating: "Low", bullets: ["Gemini integration across Google Workspace", "Search dominance remains unchallenged", "Undervalued vs Big Tech peers"], catalyst: "Cloud Profitability", optionsFlow: "Low IV Opportunity Buying", flowSnippet: "IV Crush Play" },
+    { ticker: "GOOGL", name: "Alphabet Inc", sector: "Technology", price: 305.23, entry: "305 - 320", target: 385, stop: 292, riskRating: "Low", bullets: ["Gemini integration across Google Workspace", "Search dominance remains unchallenged", "Undervalued vs Big Tech peers"], catalyst: "Cloud Profitability", optionsFlow: "Low IV Opportunity Buying", flowSnippet: "IV Crush Play" },
 
     // DEFENSE
     { ticker: "LMT", name: "Lockheed Martin", sector: "Defense", price: 647.50, entry: "635 - 655", target: 760, stop: 610, riskRating: "Low", bullets: ["F-35 deliveries back on track", "Record backlog of international orders", "Safe-haven capital flows during unrest"], catalyst: "Geopolitical Tensions", optionsFlow: "Safe-Haven Positioning", flowSnippet: "Defensive" },
@@ -132,21 +132,29 @@ function bindEvents() {
     if (refreshBtn) refreshBtn.addEventListener('click', refreshStocks);
 
     if (updateTickerBtn) {
-        updateTickerBtn.addEventListener('click', () => {
+        updateTickerBtn.addEventListener('click', async () => {
             const icon = updateTickerBtn.querySelector('i');
             if (icon) icon.classList.add('animate-spin');
 
-            // Simulate price movement for "Current Market Pricing"
-            STOCK_DATABASE.forEach(stock => {
-                const change = (Math.random() * 2 - 1) * (stock.price * 0.005);
-                stock.price += change;
-            });
+            if (FINNHUB_KEY) {
+                // Real-time update if key is present
+                await fetchLatestPrices();
+            } else {
+                // Simulated price movement for demo/offline
+                STOCK_DATABASE.forEach(stock => {
+                    const change = (Math.random() * 2 - 1) * (stock.price * 0.005);
+                    stock.price += change;
+                });
+                setTimeout(() => {
+                    refreshStocks();
+                }, 800);
+            }
 
+            // Sync completion feedback
             setTimeout(() => {
-                refreshStocks();
                 initUpdateTimestamp();
                 if (icon) icon.classList.remove('animate-spin');
-            }, 800);
+            }, 1000);
         });
     }
 
