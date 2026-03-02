@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("Alpha-X v4.0.4 Initializing...");
     initLoader();
     updateTime();
+    initUpdateTimestamp();
     bindEvents();
 
     // Automatically trigger real-time sync if key is present
@@ -86,6 +87,16 @@ function updateTime() {
     setTimeout(updateTime, 1000);
 }
 
+function initUpdateTimestamp() {
+    const el = document.getElementById('ticker-update-time');
+    if (el) {
+        const now = new Date();
+        const dateStr = now.toLocaleDateString([], { month: 'short', day: '2-digit' });
+        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        el.textContent = `LAST UPDATED: ${dateStr} @ ${timeStr}`;
+    }
+}
+
 function bindEvents() {
     const spaceBtn = document.getElementById('filter-space');
     const miningBtn = document.getElementById('filter-mining');
@@ -99,6 +110,7 @@ function bindEvents() {
     const btnOklo = document.getElementById('btn-oklo');
     const btnArkx = document.getElementById('btn-arkx');
     const strategyBtn = document.getElementById('strategy-info-btn');
+    const updateTickerBtn = document.getElementById('update-tickers-btn');
 
     if (spaceBtn) spaceBtn.addEventListener('click', () => handleFilterClick('New Space Stocks', 'filter-space'));
     if (miningBtn) miningBtn.addEventListener('click', () => handleFilterClick('Mining Stocks', 'filter-mining'));
@@ -118,6 +130,25 @@ function bindEvents() {
     }
 
     if (refreshBtn) refreshBtn.addEventListener('click', refreshStocks);
+
+    if (updateTickerBtn) {
+        updateTickerBtn.addEventListener('click', () => {
+            const icon = updateTickerBtn.querySelector('i');
+            if (icon) icon.classList.add('animate-spin');
+
+            // Simulate price movement for "Current Market Pricing"
+            STOCK_DATABASE.forEach(stock => {
+                const change = (Math.random() * 2 - 1) * (stock.price * 0.005);
+                stock.price += change;
+            });
+
+            setTimeout(() => {
+                refreshStocks();
+                initUpdateTimestamp();
+                if (icon) icon.classList.remove('animate-spin');
+            }, 800);
+        });
+    }
 
     if (resetBtn) resetBtn.addEventListener('click', () => {
         if (confirm("Clear Cache?")) {

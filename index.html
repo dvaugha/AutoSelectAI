@@ -55,11 +55,21 @@
             </div>
         </header>
 
-        <!-- QUICK TICKERS -->
         <div class="px-6 mb-6">
-            <div class="flex items-center gap-2 mb-2">
-                <div class="w-1 h-3 bg-accent rounded-full"></div>
-                <h3 class="text-[9px] uppercase font-black text-zinc-500 tracking-widest">Premium Tickers</h3>
+            <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                    <div class="w-1 h-3 bg-accent rounded-full"></div>
+                    <h3 class="text-[9px] uppercase font-black text-zinc-500 tracking-widest">Premium Tickers</h3>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="ticker-update-time"
+                        class="text-[8px] font-mono text-zinc-600 uppercase tracking-tighter"></span>
+                    <button id="update-tickers-btn"
+                        class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-[9px] font-black uppercase text-accent hover:bg-accent/20 active:scale-95 transition-all">
+                        <i data-lucide="refresh-cw" class="w-2.5 h-2.5"></i>
+                        Update
+                    </button>
+                </div>
             </div>
             <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
                 <button id="btn-smr" class="quick-ticker-btn">SMR</button>
